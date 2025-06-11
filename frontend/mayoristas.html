@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Ventas Mayoristas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html" class="active">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-mayoristas section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Ventas Mayoristas</li>
+                </ol>
+            </nav>
+            <h1>Ventas Mayoristas de Artículos Escolares</h1>
+            <p class="subtitulo-pagina">Accedé a precios y condiciones especiales para tu comercio o institución.</p>
+
+            <div class="contenido-mayoristas-layout">
+                <section class="info-mayoristas-texto">
+                    <h2>Beneficios de ser Cliente Mayorista en TuTiendaEscolar</h2>
+                    <p>En TuTiendaEscolar, entendemos las necesidades de revendedores, librerías, instituciones educativas y empresas. Por eso, ofrecemos un programa mayorista con múltiples ventajas para impulsar tu negocio o proyecto:</p>
+                    <ul class="lista-beneficios">
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Precios especiales altamente competitivos y descuentos por volumen significativos.</li>
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Acceso a un catálogo extendido con productos exclusivos o lanzamientos anticipados.</li>
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Atención personalizada y asesoramiento por un ejecutivo de cuentas dedicado.</li>
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Condiciones de pago flexibles y adaptadas a tu flujo de negocio (sujeto a aprobación crediticia).</li>
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Envíos prioritarios y opciones logísticas optimizadas para grandes volúmenes.</li>
+                        <li><img src="img/iconos/check-circle-fill.svg" alt="check" class="icono-lista"> Posibilidad de realizar pedidos programados y gestión de stock a medida.</li>
+                    </ul>
+
+                    <h2>¿Quiénes pueden acceder a nuestro programa mayorista?</h2>
+                    <p>Nuestro programa mayorista está especialmente diseñado para:</p>
+                    <ul class="lista-iconos-texto">
+                        <li><img src="img/iconos/store.svg" alt="Librerías"> Librerías y papelerías minoristas.</li>
+                        <li><img src="img/iconos/users-group.svg" alt="Revendedores"> Revendedores independientes y emprendedores.</li>
+                        <li><img src="img/iconos/school.svg" alt="Instituciones"> Instituciones educativas (escuelas, jardines, colegios, universidades).</li>
+                        <li><img src="img/iconos/building.svg" alt="Empresas"> Empresas que realizan compras corporativas de útiles y artículos de oficina.</li>
+                        <li><img src="img/iconos/hands-helping.svg" alt="Cooperadoras"> Cooperadoras escolares y asociaciones sin fines de lucro.</li>
+                    </ul>
+                    
+                    <h2>Requisitos y Proceso de Alta</h2>
+                    <p>Para acceder a los beneficios mayoristas, es necesario cumplir con ciertos requisitos y completar un sencillo proceso de alta:</p>
+                    <ol class="lista-numerada">
+                        <li><strong>Completar el Formulario de Solicitud:</strong> Rellena el formulario que encontrarás en esta página con los datos precisos de tu comercio, empresa o institución.</li>
+                        <li><strong>Presentación de Documentación:</strong> Te solicitaremos una copia de tu constancia de inscripción en AFIP (CUIT) y, según el caso, otra documentación que acredite tu actividad comercial o institucional (habilitación municipal, estatuto, etc.).</li>
+                        <li><strong>Análisis y Aprobación:</strong> Nuestro equipo de ventas mayoristas revisará tu solicitud y la documentación presentada. Nos pondremos en contacto contigo en un plazo de 24-72 horas hábiles para informarte sobre el estado de tu alta.</li>
+                        <li><strong>Compra Mínima Inicial:</strong> Para activar tu cuenta mayorista, se requiere una compra mínima inicial. El monto y las condiciones te serán informados durante el proceso de alta. También pueden aplicar montos mínimos para compras recurrentes.</li>
+                    </ol>
+                    <p>Si ya sos cliente mayorista, podés <a href="login.html?tipo=mayorista">ingresar a tu cuenta aquí</a>.</p>
+                </section>
+
+                <aside class="formulario-mayoristas-wrapper">
+                    <div class="formulario-mayoristas-box">
+                        <h2>Formulario de Solicitud de Cuenta Mayorista</h2>
+                        <form action="#" method="post" id="form-mayorista" class="form-stacked">
+                            <div class="form-grupo">
+                                <label for="razon-social">Razón Social / Nombre de Institución *</label>
+                                <input type="text" id="razon-social" name="razon_social" required placeholder="Ej: Librería El Estudiante S.R.L.">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="cuit">CUIT (Sin guiones ni espacios) *</label>
+                                <input type="text" id="cuit" name="cuit" required pattern="\d{11}" title="Ingrese 11 dígitos sin guiones" placeholder="Ej: 30123456789">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="nombre-contacto">Nombre del Contacto Responsable *</label>
+                                <input type="text" id="nombre-contacto" name="nombre_contacto" required placeholder="Ej: Juan Pérez">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="email-contacto">Email de Contacto *</label>
+                                <input type="email" id="email-contacto" name="email_contacto" required placeholder="Ej: compras@libreriaelestudiante.com">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="telefono-contacto">Teléfono de Contacto (Con código de área) *</label>
+                                <input type="tel" id="telefono-contacto" name="telefono_contacto" required placeholder="Ej: 1145678901">
+                            </div>
+                            <div class="form-grupo">
+                                <label for="tipo-cliente">Tipo de Cliente *</label>
+                                <select id="tipo-cliente" name="tipo_cliente" required>
+                                    <option value="" disabled selected>Seleccione una opción</option>
+                                    <option value="libreria">Librería/Papelería</option>
+                                    <option value="revendedor">Revendedor</option>
+                                    <option value="institucion">Institución Educativa</option>
+                                    <option value="empresa">Empresa (Compra Corporativa)</option>
+                                    <option value="cooperadora">Cooperadora Escolar</option>
+                                    <option value="otro">Otro (Especificar en mensaje)</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label for="mensaje-mayorista">Mensaje Adicional (Opcional)</label>
+                                <textarea id="mensaje-mayorista" name="mensaje_mayorista" rows="3" placeholder="Contanos un poco más sobre tu negocio, qué tipo de productos te interesan, volúmenes estimados, etc."></textarea>
+                            </div>
+                            <div class="form-grupo form-checkbox">
+                                <input type="checkbox" id="acepta-terminos-mayorista" name="acepta_terminos_mayorista" required>
+                                <label for="acepta-terminos-mayorista">He leído y acepto los <a href="terminos-condiciones.html#mayoristas" target="_blank" rel="noopener noreferrer">términos y condiciones</a> del programa mayorista. *</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Enviar Solicitud de Alta</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    
+</body>
+</html>

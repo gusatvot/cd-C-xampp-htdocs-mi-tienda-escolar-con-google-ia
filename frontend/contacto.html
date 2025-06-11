@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Contacto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-contacto section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Contacto</li>
+                </ol>
+            </nav>
+            <h1>Ponete en Contacto con Nosotros</h1>
+            <p class="subtitulo-pagina">Estamos para ayudarte con tus consultas sobre productos, pedidos, ventas mayoristas o cualquier otra inquietud que tengas.</p>
+
+            <div class="layout-contacto">
+                <section class="formulario-contacto-seccion">
+                    <h2>Envianos tu Consulta Directamente</h2>
+                    <form action="#" method="post" id="form-contacto" class="form-stacked">
+                        <div class="form-grupo">
+                            <label for="nombre-completo">Nombre Completo *</label>
+                            <input type="text" id="nombre-completo" name="nombre_completo" required placeholder="Tu nombre y apellido">
+                        </div>
+                        <div class="form-grupo">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="tuemail@ejemplo.com">
+                        </div>
+                        <div class="form-grupo">
+                            <label for="telefono">Teléfono (Opcional)</label>
+                            <input type="tel" id="telefono" name="telefono" placeholder="Ej: 1123456789">
+                        </div>
+                        <div class="form-grupo">
+                            <label for="asunto">Asunto *</label>
+                            <select id="asunto" name="asunto" required>
+                                <option value="" disabled selected>Seleccioná un motivo de consulta</option>
+                                <option value="consulta_producto">Consulta sobre un producto</option>
+                                <option value="estado_pedido">Estado de mi pedido</option>
+                                <option value="venta_mayorista">Información venta mayorista</option>
+                                <option value="problema_tecnico">Problema técnico en la web</option>
+                                <option value="sugerencia">Sugerencias</option>
+                                <option value="otro">Otro motivo</option>
+                            </select>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="mensaje">Mensaje *</label>
+                            <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribí tu consulta aquí..."></textarea>
+                        </div>
+                        <div class="form-grupo form-checkbox">
+                            <input type="checkbox" id="acepta-privacidad" name="acepta_privacidad" required>
+                            <label for="acepta-privacidad">Acepto la <a href="politica-privacidad.html" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>. *</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
+                    </form>
+                </section>
+
+                <aside class="info-contacto-seccion">
+                    <h2>Nuestros Canales de Contacto</h2>
+                    <div class="contacto-item">
+                        <img src="img/iconos/location-pin-fill.svg" alt="Dirección" class="icono-detalle-contacto">
+                        <div>
+                            <p><strong>Dirección (Showroom y Retiro):</strong><br>
+                            Calle Falsa 123, Oficina A<br>
+                            (C1234ABC) Ciudad Autónoma de Buenos Aires, Argentina.<br>
+                            <em>(Visitas con cita previa)</em></p>
+                        </div>
+                    </div>
+                    <div class="contacto-item">
+                        <img src="img/iconos/phone-fill-color.svg" alt="Teléfono" class="icono-detalle-contacto">
+                        <div>
+                            <p><strong>Teléfono Fijo (Atención al Cliente):</strong><br>
+                            <a href="tel:+541112345678">(011) 1234-5678</a></p>
+                        </div>
+                    </div>
+                    <div class="contacto-item">
+                        <img src="img/iconos/whatsapp-color-fill.svg" alt="WhatsApp" class="icono-detalle-contacto">
+                        <div>
+                            <p><strong>WhatsApp (Ventas y Consultas Rápidas):</strong><br>
+                            <a href="https://wa.me/5491112345678" target="_blank" rel="noopener noreferrer">+54 9 11 1234 5678</a></p>
+                        </div>
+                    </div>
+                    <div class="contacto-item">
+                        <img src="img/iconos/envelope-fill-color.svg" alt="Email" class="icono-detalle-contacto">
+                        <div>
+                            <p><strong>Email General:</strong><br>
+                            <a href="mailto:info@tutiendaescolar.com.ar">info@tutiendaescolar.com.ar</a></p>
+                            <p><strong>Email Ventas Mayoristas:</strong><br>
+                            <a href="mailto:mayoristas@tutiendaescolar.com.ar">mayoristas@tutiendaescolar.com.ar</a></p>
+                        </div>
+                    </div>
+                    <div class="contacto-item">
+                        <img src="img/iconos/clock-history.svg" alt="Horario" class="icono-detalle-contacto">
+                        <div>
+                            <p><strong>Horario de Atención Telefónica y Online:</strong><br>
+                            Lunes a Viernes de 9:00 a 18:00 hs.<br>
+                            Sábados de 9:00 a 13:00 hs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mapa-contacto">
+                        <h3>Encontranos en el Mapa</h3>
+                        <!-- Reemplaza esto con el iframe de Google Maps de tu ubicación real -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016888127468!2d-58.381570984287!3d-34.6037388804598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacf1497c031%3A0x1280f3593783feb!2sObelisco!5e0!3m2!1ses-419!2sar!4v1678886543210!5m2!1ses-419!2sar" 
+                            width="100%" 
+                            height="250" 
+                            style="border:0; border-radius: 8px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Ubicación de TuTiendaEscolar en Google Maps">
+                        </iframe>
+                    </div>
+                     <div class="redes-sociales-contacto">
+                        <h3>Seguinos en Redes</h3>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="btn-social facebook" aria-label="Facebook TuTiendaEscolar">
+                            <img src="img/iconos/facebook-circle.svg" alt="Facebook"> Facebook
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="btn-social instagram" aria-label="Instagram TuTiendaEscolar">
+                            <img src="img/iconos/instagram-circle.svg" alt="Instagram"> Instagram
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    
+</body>
+</html>

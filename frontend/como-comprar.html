@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Cómo Comprar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-como-comprar section-padding">
+        <div class="container container-medium">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Cómo Comprar</li>
+                </ol>
+            </nav>
+            <h1>Guía Paso a Paso: Cómo Comprar en TuTiendaEscolar</h1>
+            <p class="subtitulo-pagina">Comprar tus útiles escolares y artículos de librería nunca fue tan fácil. Seguí estos simples pasos:</p>
+
+            <div class="pasos-compra-container">
+                <article class="paso-compra-item">
+                    <div class="numero-paso-compra">1</div>
+                    <img src="img/como-comprar/paso1-navegar.png" alt="Navegar y seleccionar productos" class="imagen-paso-compra">
+                    <div class="texto-paso-compra">
+                        <h2>Navegá y Elegí tus Productos</h2>
+                        <p>Explorá nuestro catálogo utilizando el menú de categorías o el buscador. Hacé clic en los productos que te interesen para ver más detalles (descripción, fotos, precio). Si te decidís por un producto, seleccioná la cantidad (y variantes como color o tamaño si aplica) y hacé clic en el botón <strong>"Añadir al Carrito"</strong>.</p>
+                    </div>
+                </article>
+
+                <article class="paso-compra-item">
+                    <div class="numero-paso-compra">2</div>
+                    <img src="img/como-comprar/paso2-carrito.png" alt="Revisar el carrito de compras" class="imagen-paso-compra">
+                    <div class="texto-paso-compra">
+                        <h2>Revisá tu Carrito de Compras</h2>
+                        <p>Una vez que hayas añadido todos los productos que querés, dirigite a tu Carrito de Compras. Podés acceder haciendo clic en el icono <img src="img/iconos/cart-inline.svg" alt="carrito" class="icono-inline"> en la esquina superior derecha del sitio. Aquí podrás revisar los productos seleccionados, modificar cantidades o eliminar artículos. Si tenés un cupón de descuento, este es el momento de ingresarlo.</p>
+                        <p>Cuando estés listo, hacé clic en <strong>"Iniciar Compra"</strong> o "Finalizar Pedido".</p>
+                    </div>
+                </article>
+
+                <article class="paso-compra-item">
+                    <div class="numero-paso-compra">3</div>
+                    <img src="img/como-comprar/paso3-datos.png" alt="Completar datos de contacto y envío" class="imagen-paso-compra">
+                    <div class="texto-paso-compra">
+                        <h2>Completá tus Datos</h2>
+                        <p>En este paso, te pediremos que completes la siguiente información:</p>
+                        <ul>
+                            <li><strong>Datos de Contacto:</strong> Tu correo electrónico para enviarte las notificaciones del pedido.</li>
+                            <li><strong>Dirección de Envío:</strong> Dónde querés recibir tu compra. Sé lo más preciso posible. Podrás calcular el costo de envío ingresando tu código postal.</li>
+                            <li><strong>Método de Envío:</strong> Seleccioná la opción de envío que prefieras (a domicilio, retiro en sucursal de correo, o retiro en nuestro local).</li>
+                        </ul>
+                        <p>Si ya tenés una cuenta y estás logueado, muchos de estos datos se completarán automáticamente. Si no, podés comprar como invitado.</p>
+                    </div>
+                </article>
+
+                <article class="paso-compra-item">
+                    <div class="numero-paso-compra">4</div>
+                    <img src="img/como-comprar/paso4-pago.png" alt="Elegir método de pago" class="imagen-paso-compra">
+                    <div class="texto-paso-compra">
+                        <h2>Elegí tu Método de Pago</h2>
+                        <p>Seleccioná el método de pago que más te convenga. Aceptamos:</p>
+                        <ul>
+                            <li>Tarjetas de crédito y débito (a través de Mercado Pago).</li>
+                            <li>Dinero en cuenta de Mercado Pago.</li>
+                            <li>Pago en efectivo en puntos Rapipago o Pago Fácil.</li>
+                            <li>Transferencia Bancaria Directa (con un descuento especial).</li>
+                        </ul>
+                        <p>Seguí las instrucciones en pantalla para completar el pago de forma segura. Si elegís Mercado Pago, serás redirigido a su plataforma segura para finalizar la transacción.</p>
+                    </div>
+                </article>
+
+                <article class="paso-compra-item">
+                    <div class="numero-paso-compra">5</div>
+                    <img src="img/como-comprar/paso5-confirmacion.png" alt="Confirmación del pedido" class="imagen-paso-compra">
+                    <div class="texto-paso-compra">
+                        <h2>¡Listo! Confirmación de tu Pedido</h2>
+                        <p>Una vez completado el pago, verás una pantalla de confirmación con el resumen de tu compra y tu número de pedido. Además, recibirás un correo electrónico con todos los detalles.</p>
+                        <p>Nosotros comenzaremos a preparar tu pedido y te mantendremos informado sobre el estado del envío. Si tenés una cuenta, también podrás ver el seguimiento desde la sección "Mis Pedidos".</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="info-adicional-como-comprar text-center section-padding-small">
+                <h3>¿Tenés alguna duda durante el proceso?</h3>
+                <p>No te preocupes, estamos para ayudarte. Podés consultar nuestras <a href="preguntas-frecuentes.html">Preguntas Frecuentes</a> o <a href="contacto.html">contactarnos directamente</a>. ¡Será un placer asistirte!</p>
+                <a href="productos.html" class="btn btn-primary">Empezar a Comprar Ahora</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html" class="active">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    
+</body>
+</html>

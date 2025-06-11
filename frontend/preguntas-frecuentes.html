@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Preguntas Frecuentes (FAQ)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html" class="active">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-faq section-padding">
+        <div class="container container-medium">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Preguntas Frecuentes</li>
+                </ol>
+            </nav>
+            <h1>Preguntas Frecuentes (FAQ)</h1>
+            <p class="subtitulo-pagina">Encontrá respuestas a las consultas más comunes sobre nuestros productos, compras, envíos y más.</p>
+
+            <div class="faq-search-bar">
+                <input type="text" id="searchFaq" placeholder="Buscá tu pregunta (ej: envío, pago, devolución)...">
+                <button type="button"><img src="img/iconos/search-faq.svg" alt="Buscar en FAQ"></button> <!-- Puede ser el mismo search.svg -->
+            </div>
+
+            <div class="accordion-faq">
+                <!-- Categoría de Preguntas 1 -->
+                <section class="faq-category">
+                    <h2><img src="img/iconos/shopping-bag-faq.svg" alt="" class="icono-categoria-faq"> Sobre Compras y Pedidos</h2>
+                    <details class="faq-item">
+                        <summary>¿Cómo realizo una compra en TuTiendaEscolar?</summary>
+                        <div class="faq-answer">
+                            <p>Comprar es muy fácil:</p>
+                            <ol>
+                                <li>Navegá por nuestro catálogo y seleccioná los productos que querés.</li>
+                                <li>Añadilos a tu carrito de compras haciendo clic en "Añadir al Carrito".</li>
+                                <li>Cuando termines, andá al Carrito (icono en la esquina superior derecha).</li>
+                                <li>Revisá tu pedido y hacé clic en "Iniciar Compra".</li>
+                                <li>Completá tus datos de contacto, dirección de envío y seleccioná el método de envío.</li>
+                                <li>Elegí tu método de pago preferido y finalizá la compra.</li>
+                                <li>Recibirás un email de confirmación con los detalles de tu pedido.</li>
+                            </ol>
+                            <p>Podés ver una guía más detallada en nuestra sección <a href="como-comprar.html">Cómo Comprar</a>.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Necesito crear una cuenta para comprar?</summary>
+                        <div class="faq-answer">
+                            <p>No es obligatorio crear una cuenta para comprar, podés hacerlo como invitado. Sin embargo, te recomendamos <a href="registro.html">crear una cuenta</a> para disfrutar de beneficios como:</p>
+                            <ul>
+                                <li>Guardar tus direcciones para compras futuras más rápidas.</li>
+                                <li>Acceder a tu historial de pedidos.</li>
+                                <li>Crear listas de deseos.</li>
+                                <li>Recibir ofertas y novedades exclusivas (si lo deseás).</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Cómo sé si mi pedido fue confirmado?</summary>
+                        <div class="faq-answer">
+                            <p>Una vez que finalices tu compra, recibirás automáticamente un correo electrónico de confirmación a la dirección que proporcionaste. Este email incluirá el número de tu pedido y un resumen de los productos comprados. Si no lo recibís en tu bandeja de entrada, por favor revisá tu carpeta de correo no deseado (spam). Si aún así no lo encontrás, <a href="contacto.html">contactanos</a>.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Puedo modificar o cancelar mi pedido una vez realizado?</summary>
+                        <div class="faq-answer">
+                            <p>Si necesitás modificar o cancelar tu pedido, por favor <a href="contacto.html">contactanos</a> lo antes posible indicando tu número de pedido. Si el pedido aún no fue despachado, haremos todo lo posible para ayudarte. Una vez que el pedido ha sido enviado, no podremos realizar modificaciones ni cancelaciones, pero podrás gestionarlo como una devolución según nuestra <a href="terminos-condiciones.html#cancelaciones-devoluciones">política de cambios y devoluciones</a>.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- Categoría de Preguntas 2 -->
+                <section class="faq-category">
+                    <h2><img src="img/iconos/credit-card-faq.svg" alt="" class="icono-categoria-faq"> Sobre Pagos</h2>
+                    <details class="faq-item">
+                        <summary>¿Qué métodos de pago aceptan?</summary>
+                        <div class="faq-answer">
+                            <p>Aceptamos una amplia variedad de métodos de pago para tu comodidad:</p>
+                            <ul>
+                                <li><strong>Tarjetas de Crédito y Débito:</strong> A través de Mercado Pago (Visa, Mastercard, American Express, Cabal, Naranja, etc.). Podés ver las promociones de cuotas sin interés vigentes al momento de pagar.</li>
+                                <li><strong>Dinero en cuenta de Mercado Pago.</strong></li>
+                                <li><strong>Efectivo en puntos de pago:</strong> Rapipago, Pago Fácil (a través de Mercado Pago).</li>
+                                <li><strong>Transferencia Bancaria Directa:</strong> Al seleccionar esta opción, te proporcionaremos nuestros datos bancarios. Suele tener un descuento adicional.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Es seguro pagar en el sitio?</summary>
+                        <div class="faq-answer">
+                            <p>¡Absolutamente! Tu seguridad es nuestra prioridad. Utilizamos la plataforma de pagos Mercado Pago, que cuenta con los más altos estándares de seguridad y encriptación de datos (SSL) para proteger tu información financiera. Nosotros no almacenamos los datos de tu tarjeta de crédito.</p>
+                        </div>
+                    </details>
+                     <details class="faq-item">
+                        <summary>¿Realizan factura A o B?</summary>
+                        <div class="faq-answer">
+                            <p>Sí, realizamos Factura A y Factura B. Por defecto, se emite Factura B (Consumidor Final) con los datos ingresados en el proceso de compra. Si necesitás Factura A, por favor indicalo en las notas del pedido o <a href="contacto.html">contactanos</a> inmediatamente después de realizar la compra con tu número de CUIT y razón social. Recordá que para Factura A, los datos de facturación deben coincidir con el titular del CUIT.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <!-- Categoría de Preguntas 3 -->
+                <section class="faq-category">
+                    <h2><img src="img/iconos/truck-faq.svg" alt="" class="icono-categoria-faq"> Sobre Envíos y Entregas</h2>
+                    <details class="faq-item">
+                        <summary>¿Hacen envíos a todo el país?</summary>
+                        <div class="faq-answer">
+                            <p>Sí, realizamos envíos a toda Argentina a través de diversos operadores logísticos (Correo Argentino, Andreani, OCA, etc., según disponibilidad y destino).</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Cuánto cuesta el envío y cuánto tarda?</summary>
+                        <div class="faq-answer">
+                            <p>El costo y tiempo de envío varían según tu ubicación y el método de envío seleccionado. Podés calcular el costo exacto ingresando tu código postal en el carrito de compras o durante el proceso de checkout, antes de finalizar el pago. Los tiempos de entrega estimados también se mostrarán allí.</p>
+                            <p>Generalmente, los envíos demoran entre 3 y 7 días hábiles, pero esto puede variar.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Cómo hago el seguimiento de mi pedido?</summary>
+                        <div class="faq-answer">
+                            <p>Una vez que tu pedido sea despachado, te enviaremos un correo electrónico con el número de seguimiento y un enlace para que puedas rastrearlo en la página del operador logístico correspondiente. También podrás ver esta información en la sección "Mis Pedidos" si tenés una cuenta registrada.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Puedo retirar mi pedido en algún lugar?</summary>
+                        <div class="faq-answer">
+                            <p>Sí, ofrecemos la opción de retiro gratuito en nuestro local/showroom ubicado en [Tu Dirección, ej: Calle Falsa 123, CABA]. Si seleccionás esta opción, te notificaremos por email cuando tu pedido esté listo para ser retirado (generalmente en 24-48 hs hábiles). Recordá traer tu DNI y número de pedido.</p>
+                        </div>
+                    </details>
+                </section>
+
+                 <!-- Categoría de Preguntas 4 -->
+                <section class="faq-category">
+                    <h2><img src="img/iconos/exchange-faq.svg" alt="" class="icono-categoria-faq"> Sobre Cambios y Devoluciones</h2>
+                    <details class="faq-item">
+                        <summary>¿Cuál es la política de cambios y devoluciones?</summary>
+                        <div class="faq-answer">
+                            <p>Podés solicitar un cambio o devolución dentro de los 10 días corridos desde la recepción de tu compra. El producto debe estar sin uso, en perfectas condiciones y con su embalaje original. Los costos de envío por cambios o devoluciones corren por cuenta del cliente, a menos que el motivo sea un error nuestro o un defecto del producto.</p>
+                            <p>Para más detalles, consultá la sección de Cambios y Devoluciones en nuestros <a href="terminos-condiciones.html#cancelaciones-devoluciones">Términos y Condiciones</a>.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Qué hago si recibo un producto incorrecto o defectuoso?</summary>
+                        <div class="faq-answer">
+                            <p>Lamentamos mucho si esto sucede. Por favor, <a href="contacto.html">contactanos</a> dentro de las 48 horas de recibido el pedido, indicando tu número de orden y adjuntando fotos del producto incorrecto o del defecto. Nos pondremos en contacto a la brevedad para coordinar la solución (cambio o devolución sin costo para vos).</p>
+                        </div>
+                    </details>
+                </section>
+                
+                <!-- Categoría de Preguntas 5 -->
+                <section class="faq-category">
+                    <h2><img src="img/iconos/wholesale-faq.svg" alt="" class="icono-categoria-faq"> Sobre Ventas Mayoristas</h2>
+                    <details class="faq-item">
+                        <summary>¿Cómo puedo comprar al por mayor?</summary>
+                        <div class="faq-answer">
+                            <p>Para acceder a nuestros precios y condiciones mayoristas, necesitás registrarte como cliente mayorista. Podés hacerlo completando el formulario en nuestra sección de <a href="mayoristas.html">Ventas Mayoristas</a>. Una vez aprobada tu solicitud, podrás ver los precios especiales y realizar tus pedidos.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>¿Cuál es el monto mínimo para compras mayoristas?</summary>
+                        <div class="faq-answer">
+                            <p>Sí, existe un monto mínimo para la primera compra mayorista y para compras recurrentes. Estos montos te serán informados durante el proceso de alta como cliente mayorista o podés consultarlos en la sección de <a href="mayoristas.html">Ventas Mayoristas</a> una vez que tu cuenta esté activa.</p>
+                        </div>
+                    </details>
+                </section>
+
+                <div class="faq-contacto-final">
+                    <h3>¿No encontraste tu respuesta?</h3>
+                    <p>Si tu consulta no está cubierta aquí, no dudes en <a href="contacto.html">contactarnos</a>. ¡Estamos para ayudarte!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html" class="active">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <!-- <script src="js/faq.js"></script> para la funcionalidad del acordeón y búsqueda -->
+</body>
+</html>

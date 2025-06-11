@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Inicio</title>
+    
+    <!-- Google Fonts: Montserrat (Títulos) y Roboto (Cuerpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tu Hoja de Estilos Principal -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main>
+        <section class="hero-slider">
+            <div class="slide active">
+                <img src="img/banners/banner-principal-1.jpg" alt="Promoción Vuelta al Cole">
+                <div class="slide-caption">
+                    <h2>¡Gran Venta Vuelta al Cole!</h2>
+                    <p>Descuentos increíbles en todos los útiles escolares.</p>
+                    <a href="productos.html?ofertas=true" class="btn btn-primary">Ver Ofertas</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="categorias-destacadas section-padding">
+            <div class="container">
+                <h2 class="section-title">Categorías Destacadas</h2>
+                <div class="grid-categorias">
+                    <a href="productos.html?categoria=cuadernos" class="categoria-card">
+                        <img src="img/categorias/cat-cuadernos.jpg" alt="Cuadernos">
+                        <h3>Cuadernos</h3>
+                    </a>
+                    <a href="productos.html?categoria=lapices" class="categoria-card">
+                        <img src="img/categorias/cat-lapices.jpg" alt="Lápices y Colores">
+                        <h3>Lápices y Colores</h3>
+                    </a>
+                    <a href="productos.html?categoria=mochilas" class="categoria-card">
+                        <img src="img/categorias/cat-mochilas.jpg" alt="Mochilas">
+                        <h3>Mochilas</h3>
+                    </a>
+                    <a href="productos.html?categoria=escritura" class="categoria-card">
+                        <img src="img/categorias/cat-escritura.jpg" alt="Artículos de Escritura">
+                        <h3>Escritura</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="productos-destacados section-padding">
+            <div class="container">
+                <h2 class="section-title">Productos Destacados</h2>
+                <div class="grid-productos">
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=1">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-destacado-1.jpg" alt="Cuaderno Tapa Dura">
+                                <span class="etiqueta-oferta">15% OFF</span>
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Cuaderno Tapa Dura Rayado x48 Hojas Rivadavia Clásico</h3>
+                                <p class="precio">$550.00 <span class="precio-anterior">$647.00</span></p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="1">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=2">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-destacado-2.jpg" alt="Caja Lápices Colores">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Caja Lápices Colores Faber Castell Largos x12 Unidades</h3>
+                                <p class="precio">$890.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="2">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=4">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-destacado-3.jpg" alt="Mochila Escolar">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Mochila Escolar Juvenil Urbana Reforzada Varios Colores</h3>
+                                <p class="precio">$3200.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="4">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=5">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-destacado-4.jpg" alt="Set Geometría">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Set Geometría Escolar Regla Escuadra Transportador Plástico</h3>
+                                <p class="precio">$450.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="5">Añadir al Carrito</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="novedades section-padding bg-light">
+            <div class="container">
+                <h2 class="section-title">Novedades</h2>
+                <div class="grid-productos">
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=3">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-novedad-1.jpg" alt="Mochila Urbana">
+                                <span class="etiqueta-nuevo">Nuevo</span>
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Mochila Escolar Urbana Reforzada con Puerto USB</h3>
+                                <p class="precio">$4500.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="3">Añadir al Carrito</button>
+                    </article>
+                     <article class="producto-card">
+                        <a href="producto-detalle.html?id=6">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-novedad-2.jpg" alt="Resaltadores Pastel">
+                                <span class="etiqueta-nuevo">Nuevo</span>
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Resaltadores Filgo Lighter Fine Pastel Pack x6 Unidades</h3>
+                                <p class="precio">$1100.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="6">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=7">
+                             <div class="producto-card-imagen">
+                                <img src="img/productos/producto-novedad-3.jpg" alt="Agenda 2024">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Agenda 2024 Diaria Tapa Dura Diseño Flores Motivacional</h3>
+                                <p class="precio">$2800.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="7">Añadir al Carrito</button>
+                    </article>
+                     <article class="producto-card">
+                        <a href="producto-detalle.html?id=8">
+                             <div class="producto-card-imagen">
+                                <img src="img/productos/producto-novedad-4.jpg" alt="Temperas">
+                                <span class="etiqueta-oferta">HOT</span>
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Temperas Escolares Lavables Pote x10 Colores Surtidos</h3>
+                                <p class="precio">$950.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="8">Añadir al Carrito</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-adicional section-padding">
+    <div class="container">
+        <div class="grid-info">
+            <div class="info-item">
+                <img src="img/iconos/truck.svg" alt="Envíos" class="icono-info">
+                <h4>Envíos a todo el país</h4>
+                <p>Recibe tu pedido donde estés de forma rápida y segura.</p>
+            </div>
+            <!-- más .info-item -->
+        </div>
+    </div>
+</section>
+        
+        <section class="llamada-mayoristas section-padding bg-dark text-light">
+    <div class="container text-center">
+        <h2>¿Sos Comerciante, Escuela o Revendedor?</h2>
+        <p>Accedé a precios mayoristas exclusivos, descuentos por volumen y atención personalizada para tu negocio o institución.</p>
+        <a href="mayoristas.html" class="btn btn-primary btn-lg">Registrate como Mayorista</a>
+    </div>
+</section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>

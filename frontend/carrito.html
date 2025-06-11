@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Carrito de Compras</title>
+    
+    <!-- Google Fonts: Montserrat (Títulos) y Roboto (Cuerpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tu Hoja de Estilos Principal -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito active" aria-label="Carrito de Compras"> <!-- 'active' porque estamos en la página del carrito -->
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">2</span> <!-- Ejemplo con 2 items, se actualizará con JS -->
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-carrito section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Carrito de Compras</li>
+                </ol>
+            </nav>
+            <h1>Tu Carrito de Compras</h1>
+
+            <!-- Contenedor para el mensaje de carrito vacío, se mostrará con JS si es necesario -->
+            <div class="carrito-vacio" style="display: none;"> <!-- Inicialmente oculto -->
+                <img src="img/iconos/empty-cart.svg" alt="Carrito vacío" class="icono-grande-vacio">
+                <h2>Tu carrito está vacío</h2>
+                <p>Aún no has agregado productos a tu carrito.</p>
+                <a href="productos.html" class="btn btn-primary">Ir a la Tienda</a>
+            </div>
+            
+            <!-- Contenedor para cuando el carrito tiene items -->
+            <div class="contenido-carrito-layout">
+                <section class="items-carrito-lista">
+                    <table class="tabla-carrito">
+                        <thead>
+                            <tr>
+                                <th colspan="2" class="text-left">Producto</th>
+                                <th class="text-right">Precio Unit.</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-right">Subtotal</th>
+                                <th></th> <!-- Para eliminar -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Los items del carrito se generarían aquí con JavaScript -->
+                            <!-- Ejemplo de item 1 (para diseño) -->
+                            <tr class="item-carrito" data-iditem="prod1">
+                                <td class="imagen-producto-carrito">
+                                    <a href="producto-detalle.html?id=1">
+                                        <img src="img/productos/producto-destacado-1.jpg" alt="Cuaderno Tapa Dura">
+                                    </a>
+                                </td>
+                                <td class="nombre-producto-carrito">
+                                    <a href="producto-detalle.html?id=1">Cuaderno Tapa Dura Rayado x48</a>
+                                    <small>SKU: ART001</small>
+                                    <!-- <small>Color: Azul</small> -->
+                                </td>
+                                <td data-label="Precio Unitario:" class="precio-unitario-carrito text-right">$550.00</td>
+                                <td data-label="Cantidad:" class="cantidad-item-carrito">
+                                    <div class="selector-cantidad selector-cantidad-carrito"> <!-- Añadida clase para JS específico si es necesario -->
+                                        <button type="button" class="btn-cantidad menos" aria-label="Disminuir">-</button>
+                                        <input type="number" class="input-cantidad" value="1" min="1" max="10" readonly data-precio="550">
+                                        <button type="button" class="btn-cantidad mas" aria-label="Aumentar">+</button>
+                                    </div>
+                                </td>
+                                <td data-label="Subtotal:" class="subtotal-item-carrito text-right">$550.00</td>
+                                <td class="acciones-item-carrito">
+                                    <button class="btn-eliminar-item" aria-label="Eliminar producto" data-iditem="prod1">
+                                        <img src="img/iconos/trash.svg" alt="Eliminar">
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Ejemplo de item 2 (para diseño) -->
+                            <tr class="item-carrito" data-iditem="prod2">
+                                <td class="imagen-producto-carrito">
+                                    <a href="producto-detalle.html?id=2">
+                                        <img src="img/productos/producto-destacado-2.jpg" alt="Lápices de Colores">
+                                    </a>
+                                </td>
+                                <td class="nombre-producto-carrito">
+                                    <a href="producto-detalle.html?id=2">Caja Lápices Colores Faber Castell x12</a>
+                                    <small>SKU: ART002</small>
+                                </td>
+                                <td data-label="Precio Unitario:" class="precio-unitario-carrito text-right">$890.00</td>
+                                <td data-label="Cantidad:" class="cantidad-item-carrito">
+                                    <div class="selector-cantidad selector-cantidad-carrito">
+                                        <button type="button" class="btn-cantidad menos" aria-label="Disminuir">-</button>
+                                        <input type="number" class="input-cantidad" value="2" min="1" max="5" readonly data-precio="890">
+                                        <button type="button" class="btn-cantidad mas" aria-label="Aumentar">+</button>
+                                    </div>
+                                </td>
+                                <td data-label="Subtotal:" class="subtotal-item-carrito text-right">$1780.00</td>
+                                <td class="acciones-item-carrito">
+                                    <button class="btn-eliminar-item" aria-label="Eliminar producto" data-iditem="prod2">
+                                        <img src="img/iconos/trash.svg" alt="Eliminar">
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- Fin de items de ejemplo -->
+                        </tbody>
+                    </table>
+                    <div class="acciones-generales-carrito">
+                        <a href="productos.html" class="btn btn-outline"> <img src="img/iconos/arrow-left.svg" alt=""> Seguir Comprando</a>
+                        <button class="btn btn-link btn-vaciar-carrito">Vaciar Carrito</button>
+                    </div>
+                </section>
+
+                <aside class="resumen-compra-carrito">
+                    <h2>Resumen del Pedido</h2>
+                    <div class="linea-resumen">
+                        <span>Subtotal (<span class="numero-items-resumen">2</span> productos):</span>
+                        <span class="valor-subtotal-resumen">$2330.00</span>
+                    </div>
+                    <div class="linea-resumen">
+                        <span>Envío:</span>
+                        <span class="valor-envio-resumen">A calcular</span>
+                    </div>
+                    <div class="cupon-descuento">
+                        <label for="cupon" class="label-cupon">¿Tenés un cupón de descuento?</label>
+                        <div class="input-group">
+                            <input type="text" id="cupon" name="cupon" placeholder="Ingresá tu cupón">
+                            <button type="button" class="btn btn-secondary btn-aplicar-cupon">Aplicar</button>
+                        </div>
+                        <p class="mensaje-cupon" style="display: none;"></p> <!-- Para mensajes de éxito/error del cupón -->
+                    </div>
+                    <hr>
+                    <div class="linea-resumen total-pedido">
+                        <span>Total Estimado:</span>
+                        <span class="valor-total-resumen">$2330.00</span>
+                    </div>
+                    <a href="checkout.html" class="btn btn-primary btn-block btn-iniciar-compra">Iniciar Compra Segura <img src="img/iconos/lock-white.svg" alt=""></a>
+                    <div class="medios-pago-info-carrito">
+                        <p>Aceptamos todos los medios de pago:</p>
+                        <img src="img/medios-pago-chicos.png" alt="Visa, Mastercard, Amex, Mercado Pago, Pago Fácil, Rapipago">
+                    </div>
+                </aside>
+            </div> 
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <!-- Podrías tener un script específico para el carrito si la lógica es mucha: -->
+    <!-- <script src="js/carrito.js"></script> -->
+</body>
+</html>

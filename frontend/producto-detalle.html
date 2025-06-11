@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Nombre Detallado del Artículo Escolar Super Genial</title> <!-- Este título se llenaría dinámicamente -->
+    
+    <!-- Google Fonts: Montserrat (Títulos) y Roboto (Cuerpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tu Hoja de Estilos Principal -->
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    </header>
+
+    <main class="pagina-detalle-producto section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li> <!-- Ejemplo de categoría, se llenaría dinámicamente -->
+                    <li aria-current="page">Nombre Detallado del Artículo Escolar Super Genial</li> <!-- Se llenaría dinámicamente -->
+                </ol>
+            </nav>
+
+            <div class="detalle-producto-layout">
+                <section class="galeria-producto">
+                    <div class="imagen-principal-wrapper">
+                         <img src="img/productos/producto-grande-1.jpg" alt="Imagen principal del producto XYZ" id="imagen-principal-producto" class="imagen-principal">
+                         <!-- <span class="etiqueta-oferta-detalle">20% OFF</span> -->
+                    </div>
+                    <div class="miniaturas-galeria">
+                        <!-- La clase 'active' se manejará con JS. Por ahora, la primera es activa. -->
+                        <img src="img/productos/producto-thumb-1.jpg" alt="Miniatura 1 del producto XYZ" class="miniatura active" data-imagen-grande="img/productos/producto-grande-1.jpg">
+                        <img src="img/productos/producto-thumb-2.jpg" alt="Miniatura 2 del producto XYZ" class="miniatura" data-imagen-grande="img/productos/producto-grande-2.jpg">
+                        <img src="img/productos/producto-thumb-3.jpg" alt="Miniatura 3 del producto XYZ" class="miniatura" data-imagen-grande="img/productos/producto-grande-3.jpg">
+                        <img src="img/productos/producto-thumb-4.jpg" alt="Miniatura 4 del producto XYZ" class="miniatura" data-imagen-grande="img/productos/producto-grande-4.jpg">
+                        <!-- Podría haber más miniaturas -->
+                    </div>
+                </section>
+
+                <section class="info-producto-compra">
+                    <h1>Nombre Detallado del Artículo Escolar Super Genial</h1>
+                    <p class="sku-producto">SKU: ART00123 <span class="marca-producto">| Marca: <strong>Marca Ejemplo</strong></span></p>
+                    
+                    <div class="precios-producto">
+                        <p class="precio-actual">$2999.99</p>
+                        <!-- <p class="precio-anterior">$3500.00</p> --> 
+                        <!-- <p class="ahorro">Ahorrás: $500.01 (14%)</p> -->
+                    </div>
+                    <p class="precio-mayorista-info">Precio mayorista disponible. <a href="login.html?redirect=producto-detalle.html?id=XYZ" class="link-accion">Inicia sesión</a> o <a href="mayoristas.html" class="link-accion">regístrate como mayorista</a>.</p>
+
+                    <p class="descripcion-corta">
+                        Breve descripción del producto que enganche al cliente. Ideal para estudiantes de todas las edades. Materiales de alta calidad y durabilidad garantizada. Colores vibrantes y diseño moderno.
+                    </p>
+
+                    <div class="variantes-producto">
+                        <div class="variante-grupo">
+                            <label for="color">Color:</label>
+                            <select name="color" id="color">
+                                <option value="" disabled selected>Seleccionar color</option>
+                                <option value="azul">Azul</option>
+                                <option value="rojo">Rojo</option>
+                                <option value="verde">Verde</option>
+                                <option value="negro" disabled>Negro (Agotado)</option>
+                            </select>
+                        </div>
+                        <!-- Otro grupo de variantes si es necesario, ej: Tamaño -->
+                        <!-- 
+                        <div class="variante-grupo">
+                            <label for="tamanio">Tamaño:</label>
+                            <select name="tamanio" id="tamanio">
+                                <option value="chico">Chico</option>
+                                <option value="mediano">Mediano</option>
+                                <option value="grande">Grande</option>
+                            </select>
+                        </div>
+                        -->
+                    </div>
+                    
+                    <!-- En producto-detalle.html -->
+                    <form class="formulario-compra" 
+                        data-idproducto="XYZ" 
+                        data-nombre="Nombre Detallado del Artículo Escolar Super Genial" 
+                        data-precio="2999.99" 
+                        data-imagen="img/productos/producto-grande-1.jpg">
+                        <div class="selector-cantidad">
+                            <label for="cantidad">Cantidad:</label>
+                            <button type="button" class="btn-cantidad menos" aria-label="Disminuir cantidad">-</button>
+                            <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="99" readonly class="input-cantidad">
+                            <button type="button" class="btn-cantidad mas" aria-label="Aumentar cantidad">+</button>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-anadir-carrito-grande">Añadir al Carrito</button>
+                    </form>                 
+
+                    <div class="info-adicional-compra">
+                        <p><img src="img/iconos/check-circle.svg" alt="Stock" class="icono-detalle"> <strong>Disponibilidad:</strong> <span class="en-stock">En Stock</span></p>
+                        <p><img src="img/iconos/truck-fast.svg" alt="Envío" class="icono-detalle"> <strong>Envío:</strong> <a href="#calculador-envio" class="link-accion link-calcular-envio">Calculá el costo y tiempo de envío</a></p>
+                        <p><img src="img/iconos/credit-card-fill.svg" alt="Pagos" class="icono-detalle"> <strong>Pagos:</strong> Hasta 3 cuotas sin interés con tarjetas seleccionadas. <a href="medios-de-pago.html" class="link-accion">Ver medios de pago</a></p>
+                    </div>
+                    <div class="compartir-producto">
+                        <span>Compartir:</span>
+                        <a href="#" aria-label="Compartir en Facebook" target="_blank" rel="noopener noreferrer"><img src="img/iconos/facebook-share.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Compartir en WhatsApp" target="_blank" rel="noopener noreferrer"><img src="img/iconos/whatsapp-share.svg" alt="WhatsApp"></a>
+                        <a href="#" aria-label="Compartir en Twitter" target="_blank" rel="noopener noreferrer"><img src="img/iconos/twitter-share.svg" alt="Twitter"></a>
+                        <a href="#" aria-label="Copiar enlace"><img src="img/iconos/link-share.svg" alt="Copiar Enlace"></a>
+                    </div>
+                </section>
+            </div>
+
+            <section class="descripcion-tabs-producto section-padding-small">
+                <div class="tabs-nav">
+                    <button class="tab-link active" data-tab="descripcion">Descripción</button>
+                    <button class="tab-link" data-tab="especificaciones">Especificaciones</button>
+                    <button class="tab-link" data-tab="opiniones">Opiniones (3)</button>
+                </div>
+                <div id="descripcion" class="tab-content active"> <!-- Solo este tiene 'active' por defecto -->
+                    <h4>Descripción Completa del Producto</h4>
+                    <p>Sumérgete en la calidad superior de este artículo escolar, diseñado pensando en las necesidades de los estudiantes modernos. Fabricado con materiales resistentes y ecológicos, este producto no solo es duradero sino también amigable con el medio ambiente. Su diseño ergonómico asegura comodidad durante el uso prolongado, ideal para largas jornadas de estudio o creatividad.</p>
+                    <p>Características destacadas:</p>
+                    <ul>
+                        <li>Materiales de alta resistencia para una mayor vida útil.</li>
+                        <li>Diseño innovador y funcional que facilita su uso.</li>
+                        <li>Colores vibrantes y acabados de primera calidad.</li>
+                        <li>Perfecto para uso diario en la escuela, universidad u oficina.</li>
+                        <li>Contribuye a una organización eficiente de tus útiles.</li>
+                    </ul>
+                    <p>No te conformes con menos, elige la excelencia para tus herramientas de estudio y trabajo. Este producto es una inversión en tu productividad y confort.</p>
+                </div>
+                <div id="especificaciones" class="tab-content"> <!-- SIN style="display: none;" y SIN 'active' -->
+                    <h4>Especificaciones Técnicas</h4>
+                    <table>
+                        <tbody>
+                            <tr><th>Marca:</th><td>Marca Ejemplo</td></tr>
+                            <tr><th>Modelo:</th><td>Modelo XYZ-123 Deluxe</td></tr>
+                            <tr><th>Material Principal:</th><td>Plástico reciclado de alta densidad, componentes metálicos</td></tr>
+                            <tr><th>Dimensiones (L x A x P):</th><td>20cm x 10cm x 5cm</td></tr>
+                            <tr><th>Peso Neto:</th><td>250 gramos</td></tr>
+                            <tr><th>Colores Disponibles:</th><td>Azul, Rojo, Verde (según stock)</td></tr>
+                            <tr><th>País de Origen:</th><td>Argentina</td></tr>
+                            <tr><th>Garantía:</th><td>6 meses por defectos de fabricación</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="opiniones" class="tab-content"> <!-- SIN style="display: none;" y SIN 'active' -->
+                    <h4>Opiniones de Clientes (3)</h4>
+                    <article class="opinion-item">
+                        <div class="opinion-header">
+                            <span class="autor-opinion"><strong>Juan Pérez</strong></span>
+                            <time datetime="2023-10-25" class="fecha-opinion">25/10/2023</time>
+                        </div>
+                        <div class="estrellas-opinion" aria-label="4 de 5 estrellas">★★★★☆</div>
+                        <p class="texto-opinion">Muy buen producto, cumple con lo esperado. Los materiales se sienten de calidad. Lo recomiendo.</p>
+                    </article>
+                    <article class="opinion-item">
+                        <div class="opinion-header">
+                            <span class="autor-opinion"><strong>María González</strong></span>
+                            <time datetime="2023-11-02" class="fecha-opinion">02/11/2023</time>
+                        </div>
+                        <div class="estrellas-opinion" aria-label="5 de 5 estrellas">★★★★★</div>
+                        <p class="texto-opinion">¡Excelente! Superó mis expectativas. El color es más lindo en persona. Entrega rápida.</p>
+                    </article>
+                    <article class="opinion-item">
+                        <div class="opinion-header">
+                            <span class="autor-opinion"><strong>Carlos López</strong></span>
+                            <time datetime="2023-11-10" class="fecha-opinion">10/11/2023</time>
+                        </div>
+                        <div class="estrellas-opinion" aria-label="3 de 5 estrellas">★★★☆☆</div>
+                        <p class="texto-opinion">Es bueno, pero esperaba un poco más por el precio. Cumple su función.</p>
+                    </article>
+                    <div class="acciones-opiniones">
+                        <a href="#form-opinion" class="btn btn-secondary">Escribir una opinión</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="calculador-envio" class="calculador-envio-detalle section-padding-small">
+                <h3><img src="img/iconos/shipping-fast-color.svg" alt="Envío" class="icono-inline"> Calculá el costo de envío</h3>
+                <form class="form-calculador-envio">
+                    <input type="text" id="codigo-postal-input" name="codigo_postal" placeholder="Ingresá tu código postal" pattern="[0-9A-Za-z]{4,8}">
+                    <button type="submit" class="btn btn-outline">Calcular</button>
+                </form>
+                <div class="resultado-envio"><!-- Aquí se mostrará el resultado con JS --></div>
+            </section>
+
+            <section class="productos-relacionados section-padding">
+                <h2 class="section-title">También te podría interesar</h2>
+                <div class="grid-productos">
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=20">
+                             <div class="producto-card-imagen">
+                                <img src="img/productos/producto-relacionado-1.jpg" alt="Producto Relacionado 1">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Cartuchera Canopla 2 Pisos Diseño Flores</h3>
+                                <p class="precio">$1800.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="20">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=21">
+                            <div class="producto-card-imagen">
+                                <img src="img/productos/producto-relacionado-2.jpg" alt="Producto Relacionado 2">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Repuesto Hojas N°3 Cuadriculado x96 Marca Éxito</h3>
+                                <p class="precio">$750.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="21">Añadir al Carrito</button>
+                    </article>
+                    <article class="producto-card">
+                        <a href="producto-detalle.html?id=22">
+                             <div class="producto-card-imagen">
+                                <img src="img/productos/producto-relacionado-3.jpg" alt="Producto Relacionado 3">
+                            </div>
+                            <div class="producto-card-info">
+                                <h3>Compás Metálico con Estuche y Minas de Repuesto</h3>
+                                <p class="precio">$990.00</p>
+                            </div>
+                        </a>
+                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="22">Añadir al Carrito</button>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script> 
+</body>
+</html>

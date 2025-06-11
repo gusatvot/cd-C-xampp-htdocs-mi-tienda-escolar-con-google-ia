@@ -1,0 +1,20 @@
+# Ignorar carpetas de dependencias
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Ignorar archivos de variables de entorno (sensibles)
+.env
+frontend/.env
+backend/.env
+
+# Ignorar archivos de log o temporales
+npm-debug.log*
+yarn-error.log*
+.vscode/ # Opcional, ignora configuraciones de VS Code
+dist/ # Si Vite crea una carpeta dist en la raíz
+
+# Ignorar otros archivos comunes
+*.log
+*.DS_Store # Archivos de macOS
+Thumbs.db # Archivos de Windows

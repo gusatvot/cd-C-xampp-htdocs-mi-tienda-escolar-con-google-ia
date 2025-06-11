@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Productos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    </header>
+
+    <main class="pagina-productos section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Productos</li>
+                    <!-- Ejemplo si es una categoría específica:
+                    <li><a href="productos.html">Productos</a></li>
+                    <li aria-current="page">Cuadernos</li> 
+                    -->
+                </ol>
+            </nav>
+
+            <div class="layout-productos">
+                <aside class="sidebar-filtros">
+                    <h3>Filtrar por</h3>
+                    <div class="filtro-grupo">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="productos.html?categoria=cuadernos" class="filtro-link">Cuadernos <span class="contador-filtro">(25)</span></a></li>
+                            <li><a href="productos.html?categoria=lapices" class="filtro-link">Lápices y Colores <span class="contador-filtro">(40)</span></a></li>
+                            <li><a href="productos.html?categoria=mochilas" class="filtro-link">Mochilas <span class="contador-filtro">(15)</span></a></li>
+                            <li><a href="productos.html?categoria=escritura" class="filtro-link">Escritura <span class="contador-filtro">(30)</span></a></li>
+                            <li><a href="productos.html?categoria=manualidades" class="filtro-link">Manualidades <span class="contador-filtro">(22)</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="filtro-grupo">
+                        <h4>Marcas</h4>
+                        <ul>
+                            <li><label><input type="checkbox" name="marca" value="marca-a"> Marca A <span class="contador-filtro">(10)</span></label></li>
+                            <li><label><input type="checkbox" name="marca" value="marca-b"> Marca B <span class="contador-filtro">(18)</span></label></li>
+                            <li><label><input type="checkbox" name="marca" value="marca-c"> Marca C <span class="contador-filtro">(5)</span></label></li>
+                        </ul>
+                    </div>
+                    <div class="filtro-grupo">
+                        <h4>Precio</h4>
+                        <div class="filtro-precio-inputs">
+                            <input type="number" id="precio-min" name="precio_min" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="precio-max" name="precio_max" placeholder="Max">
+                        </div>
+                        <!-- Podría ir un slider de rango aquí también -->
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-aplicar-filtros">Aplicar Filtros</button>
+                    <button type="reset" class="btn btn-link btn-block btn-limpiar-filtros">Limpiar Filtros</button>
+                </aside>
+
+                <section class="contenido-productos">
+                    <div class="cabecera-listado">
+                        <h1>Todos los Productos</h1> <!-- O el nombre de la categoría si está filtrada -->
+                        <div class="vista-controles">
+                            <span class="total-productos">Mostrando 1-12 de 85 productos</span>
+                            <div class="ordenar-por">
+                                <label for="ordenar">Ordenar por:</label>
+                                <select name="ordenar" id="ordenar">
+                                    <option value="relevancia">Relevancia</option>
+                                    <option value="precio-asc">Menor Precio</option>
+                                    <option value="precio-desc">Mayor Precio</option>
+                                    <option value="nombre-asc">Nombre (A-Z)</option>
+                                    <option value="nombre-desc">Nombre (Z-A)</option>
+                                    <option value="mas-vendidos">Más Vendidos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-productos">
+                        <!-- Repetir esta estructura para cada producto -->
+                        <article class="producto-card">
+                            <a href="producto-detalle.html?id=10">
+                                <div class="producto-card-imagen">
+                                    <img src="img/productos/producto-ejemplo-1.jpg" alt="Nombre Producto 1">
+                                    <!-- <span class="etiqueta-oferta">OFERTA</span> -->
+                                </div>
+                                <div class="producto-card-info">
+                                    <h3>Nombre Producto Ejemplo Largo para Probar Diseño</h3>
+                                    <p class="precio">$750.00</p>
+                                    <!-- <p class="precio-anterior">$900.00</p> -->
+                                </div>
+                            </a>
+                            <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="10">Añadir al Carrito</button>
+                        </article>
+                        <article class="producto-card">
+                            <a href="producto-detalle.html?id=11">
+                                <div class="producto-card-imagen">
+                                    <img src="img/productos/producto-ejemplo-2.jpg" alt="Nombre Producto 2">
+                                </div>
+                                <div class="producto-card-info">
+                                    <h3>Otro Producto Interesante</h3>
+                                    <p class="precio">$1200.00</p>
+                                </div>
+                            </a>
+                            <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="11">Añadir al Carrito</button>
+                        </article>
+                        <article class="producto-card">
+                            <a href="producto-detalle.html?id=12">
+                                <div class="producto-card-imagen">
+                                    <img src="img/productos/producto-ejemplo-3.jpg" alt="Nombre Producto 3">
+                                    <span class="etiqueta-nuevo">NUEVO</span>
+                                </div>
+                                <div class="producto-card-info">
+                                    <h3>Artículo Escolar con Etiqueta</h3>
+                                    <p class="precio">$980.00</p>
+                                </div>
+                            </a>
+                            <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="12">Añadir al Carrito</button>
+                        </article>
+                        <!-- ... más productos (hasta 9 o 12 por página) ... -->
+                    </div>
+
+                    <nav class="paginacion" aria-label="Paginación de productos">
+                        <ul>
+                            <li><a href="#" class="prev disabled" aria-label="Página anterior">«</a></li>
+                            <li><a href="#" class="pagina-actual" aria-current="page">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><span>...</span></li>
+                            <li><a href="#">8</a></li>
+                            <li><a href="#" class="next" aria-label="Página siguiente">»</a></li>
+                        </ul>
+                    </nav>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

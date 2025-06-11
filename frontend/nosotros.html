@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuTiendaEscolar - Sobre Nosotros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" class="icono-cuenta" aria-label="Mi Cuenta">
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container"> <!-- Añadida clase nav-bar-container -->
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span> <!-- Para las 3 líneas del icono -->
+        </button>
+        <div class="nav-menu-wrapper"> <!-- Nuevo wrapper para el ul -->
+            <ul>
+                <li><a href="index.html" class="active">Inicio</a></li> <!-- La clase active cambiará por página -->
+                <li class="dropdown">
+                    <a href="productos.html">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    </header>
+
+    <main class="pagina-nosotros section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li aria-current="page">Sobre Nosotros</li>
+                </ol>
+            </nav>
+            <div class="hero-nosotros">
+                <img src="img/banners/banner-nosotros.jpg" alt="Banner representativo de TuTiendaEscolar" class="img-fluid">
+                <div class="hero-nosotros-caption">
+                    <h1>Conocé TuTiendaEscolar</h1>
+                    <p>Más que una librería, somos tus aliados en la educación y la creatividad.</p>
+                </div>
+            </div>
+            
+            <section class="historia-empresa-nosotros section-padding-small">
+                <div class="grid-nosotros">
+                    <div class="texto-nosotros">
+                        <h2>Nuestra Historia: Pasión por Aprender</h2>
+                        <p>TuTiendaEscolar nació en el corazón de [Ciudad/Barrio] en el año [Año de Fundación], fruto de la visión de [Nombre del Fundador/Familia Fundadora], una familia con una profunda conexión con el mundo de la educación y una pasión por proveer herramientas que inspiren el aprendizaje y la creatividad.</p>
+                        <p>Comenzamos como un pequeño local, con el sueño de convertirnos en un referente para estudiantes, docentes, artistas e instituciones. Con esfuerzo, dedicación y, sobre todo, la confianza de nuestros clientes, hemos crecido hasta convertirnos en lo que somos hoy: una tienda online con alcance nacional, pero con el mismo espíritu cercano y el compromiso del primer día.</p>
+                        <p>A lo largo de los años, hemos ampliado nuestro catálogo, incorporado nuevas tecnologías y mejorado nuestros procesos, siempre con el objetivo de ofrecerte la mejor experiencia de compra y los productos de la más alta calidad.</p>
+                    </div>
+                    <div class="imagen-nosotros">
+                        <img src="img/nosotros/tienda-fachada-o-equipo.jpg" alt="Equipo de TuTiendaEscolar o fachada de la tienda física si existe" class="img-fluid rounded-img">
+                    </div>
+                </div>
+            </section>
+
+            <section class="mision-vision-valores-nosotros section-padding-small bg-light">
+                <div class="container-small">
+                    <div class="mvv-grid">
+                        <div class="mvv-item">
+                            <img src="img/iconos/mission-target.svg" alt="Misión" class="icono-mvv">
+                            <h3>Nuestra Misión</h3>
+                            <p>Facilitar el acceso a una amplia y diversa gama de artículos escolares, de librería y artísticos de la más alta calidad, ofreciendo una experiencia de compra online simple, segura, ágil y satisfactoria. Buscamos ser un soporte fundamental tanto para clientes minoristas como mayoristas, contribuyendo activamente al proceso educativo, el desarrollo creativo y el éxito de los proyectos de nuestros clientes.</p>
+                        </div>
+                        <div class="mvv-item">
+                            <img src="img/iconos/vision-eye.svg" alt="Visión" class="icono-mvv">
+                            <h3>Nuestra Visión</h3>
+                            <p>Consolidarnos como la tienda online de artículos escolares, de librería y artísticos líder en Argentina, siendo reconocidos a nivel nacional por nuestra excelencia en variedad de productos, precios competitivos, innovación constante, atención al cliente personalizada y un fuerte compromiso con la comunidad educativa y el fomento de la creatividad en todas sus formas.</p>
+                        </div>
+                        <div class="mvv-item mvv-valores">
+                            <img src="img/iconos/values-heart.svg" alt="Valores" class="icono-mvv">
+                            <h3>Nuestros Valores Fundamentales</h3>
+                            <ul>
+                                <li><strong>Pasión por el Cliente:</strong> Nos esforzamos por entender y superar sus expectativas.</li>
+                                <li><strong>Calidad e Innovación:</strong> Ofrecemos productos confiables y buscamos constantemente nuevas soluciones.</li>
+                                <li><strong>Integridad y Transparencia:</strong> Actuamos con honestidad y claridad en todas nuestras interacciones.</li>
+                                <li><strong>Compromiso con la Educación:</strong> Creemos en el poder transformador del aprendizaje.</li>
+                                <li><strong>Trabajo en Equipo:</strong> Colaboramos para alcanzar nuestros objetivos comunes.</li>
+                                <li><strong>Responsabilidad Social:</strong> Buscamos generar un impacto positivo en nuestra comunidad.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="por-que-elegirnos-nosotros section-padding-small">
+                <h2 class="section-title">¿Por qué elegir TuTiendaEscolar?</h2>
+                <div class="grid-por-que">
+                    <div class="item-por-que">
+                        <img src="img/iconos/box-seam-fill.svg" alt="Variedad" class="icono-pq">
+                        <h4>La Mayor Variedad del Mercado</h4>
+                        <p>Contamos con más de [Número, ej: 10.000] productos de las principales marcas nacionales e importadas para cubrir todas tus necesidades escolares y creativas.</p>
+                    </div>
+                    <div class="item-por-que">
+                        <img src="img/iconos/tag-fill.svg" alt="Precios" class="icono-pq">
+                        <h4>Precios Justos y Competitivos</h4>
+                        <p>Trabajamos para ofrecerte los mejores precios, tanto para compras minoristas como para el canal mayorista, con promociones constantes.</p>
+                    </div>
+                    <div class="item-por-que">
+                        <img src="img/iconos/truck-flatbed-fill.svg" alt="Envío Rápido" class="icono-pq">
+                        <h4>Envío Rápido y Seguro a Todo el País</h4>
+                        <p>Llegamos a cada rincón de Argentina con opciones de envío confiables y seguimiento de tu pedido en tiempo real.</p>
+                    </div>
+                    <div class="item-por-que">
+                        <img src="img/iconos/headset-fill.svg" alt="Atención" class="icono-pq">
+                        <h4>Atención al Cliente Excepcional</h4>
+                        <p>Nuestro equipo de expertos está siempre dispuesto a asesorarte y resolver tus dudas de manera rápida y eficiente.</p>
+                    </div>
+                    <div class="item-por-que">
+                        <img src="img/iconos/shield-lock-fill.svg" alt="Compra Segura" class="icono-pq">
+                        <h4>Compra 100% Segura</h4>
+                        <p>Protegemos tus datos y transacciones con los más altos estándares de seguridad online para tu tranquilidad.</p>
+                    </div>
+                    <div class="item-por-que">
+                        <img src="img/iconos/people-fill.svg" alt="Comunidad" class="icono-pq">
+                        <h4>Compromiso con la Comunidad</h4>
+                        <p>Apoyamos iniciativas educativas y fomentamos la creatividad a través de diversas acciones y colaboraciones.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="llamada-accion-nosotros text-center section-padding-small bg-primary text-light">
+                <h2>¿Listo para equiparte con lo mejor?</h2>
+                <p>Explorá nuestro catálogo completo y descubrí todo lo que TuTiendaEscolar tiene para ofrecerte.</p>
+                <a href="productos.html" class="btn btn-light btn-lg">Ver Todos los Productos</a>
+                <a href="contacto.html" class="btn btn-outline-light btn-lg">Contactanos</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                        <li><a href="como-comprar.html">Cómo Comprar</a></li>
+                        <li><a href="terminos-condiciones.html">Términos y Condiciones</a></li>
+                        <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Mi Cuenta</h4>
+                    <ul>
+                        <li><a href="login.html">Ingresar</a></li>
+                        <li><a href="registro.html">Registrarme</a></li>
+                        <li><a href="mi-cuenta.html">Mis Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Atención al Cliente</h4>
+                    <p><img src="img/iconos/whatsapp-footer.svg" alt="" class="icono-footer"> +54 9 11 1234 5678</p>
+                    <p><img src="img/iconos/email-footer.svg" alt="" class="icono-footer"> info@tutiendaescolar.com.ar</p>
+                    <p>Lunes a Viernes de 9 a 18 hs.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><img src="img/iconos/facebook.svg" alt="Facebook"></a>
+                        <a href="#" aria-label="Instagram"><img src="img/iconos/instagram.svg" alt="Instagram"></a>
+                    </div>
+                    <h4>Medios de Pago</h4>
+                    <img src="img/medios-pago.png" alt="Medios de Pago" class="medios-pago-img">
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
