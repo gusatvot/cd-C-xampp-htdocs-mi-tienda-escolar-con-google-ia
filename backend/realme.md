@@ -290,3 +290,7 @@ Refinar Validaciones: Revisar a detalle todas las rutas y asegurarse de que las 
 Implementar la Gestión de Direcciones de Envío como CRUD separado (si no quedó completamente cubierta por el PUT /perfil): Aunque el PUT /perfil permite actualizar las direcciones si se envían, tener endpoints POST/PUT/:id/DELETE específicos para direcciones es más estándar para que el usuario gestione múltiples direcciones (agregar nuevas, eliminar, marcar principal).
 Fase 8: Optimización y Pulido: Implementar caching, compresión de respuestas, logging estructurado.
 Fase 9: Testing y Deploy: Escribir tests unitarios/de integración, preparar el entorno para producción, escribir documentación básica de API.
+
+git add .
+git commit -m "Backend: JWT in login response and check Authorization header"
+git push origin main

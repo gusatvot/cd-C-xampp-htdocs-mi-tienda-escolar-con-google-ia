@@ -1,35 +1,53 @@
 // backend/controllers/authController.js
-import User from '../models/User.js'; // Importar el modelo de usuario
-import asyncHandler from '../utils/asyncHandler.js'; // Wrapper para manejo de errores en rutas asíncronas
-import generateToken from '../utils/generateToken.js'; // Utilidad para generar JWT y establecer cookie
-import sendEmail from '../utils/emailSender.js'; // Utilidad para enviar emails
-import crypto from 'crypto'; // Módulo nativo de Node.js para criptografía (ya importado si usas el último código de User)
+import User from '../models/User.js';
+import asyncHandler from '../utils/asyncHandler.js';
+// import generateToken from '../utils/generateToken.js'; // Mantenemos generateToken definido aquí
+import jwt from 'jsonwebtoken'; // Para generar el token JWT
+import sendEmail from '../utils/emailSender.js'; // Para enviar emails
+import crypto from 'crypto'; // Módulo nativo de Node.js para criptografía (para reseteo)
 
+// --- Helper para generar JWT y establecer cookie ---
+// Esta función crea el token, lo pone en la cookie HttpOnly, Y devuelve el valor string del token.
+const generateToken = (res, userId, userRol) => {
+    const token = jwt.sign({ userId, rol: userRol }, process.env.JWT_SECRET, {
+        expiresIn: '30d', // Tiempo de vida del token
+    });
 
-// --- FUNCIONES DE AUTENTICACIÓN BÁSICA ---
+    // Establecer JWT como una cookie HTTP-Only
+    // Aunque el frontend use localStorage, mantener esto por seguridad y posible compatibilidad.
+    res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // true solo en producción (HTTPS)
+        sameSite: 'strict', // Ayuda a prevenir CSRF
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 días en milisegundos
+        // domain: '.tutiendaescolar.com.ar' // Si aplicable en producción (mismo dominio raíz para frontend y backend)
+    });
+
+    return token; // Retorna el string del token generado
+};
+
+// --- Controladores de Autenticación ---
 
 // @desc    Registrar un nuevo usuario
 // @route   POST /api/auth/registrar
 // @access  Public
 const registrarUsuario = asyncHandler(async (req, res) => {
-    // express-validator ya validó el formato de req.body en la ruta
+    // express-validator ya validó el formato de req.body en la ruta antes de llegar aquí.
     const { nombre, apellido, email, password, telefono, razonSocial, cuit } = req.body;
 
     // Verificar si el usuario ya existe por email (validación de unicidad también la hace Mongoose)
     const usuarioExistente = await User.findOne({ email });
     if (usuarioExistente) {
         res.status(400); // Bad Request
-        throw new Error('El usuario ya existe con ese email');
+        throw new Error('El email ya está registrado.'); // Mensaje más específico si el email ya existe
     }
 
     // Crear nuevo usuario en la base de datos
-    // El rol por defecto es 'cliente' según el modelo User.
-    // La contraseña se hashea automáticamente por el hook 'pre-save' en el modelo User.
     const usuario = await User.create({
         nombre,
         apellido,
         email,
-        password, // Se hasheará antes de guardar
+        password, // Se hasheará antes de guardar por Mongoose hook pre('save')
         telefono,
         razonSocial,
         cuit,
@@ -37,19 +55,21 @@ const registrarUsuario = asyncHandler(async (req, res) => {
     });
 
     if (usuario) {
-        // Generar token JWT y establecerlo como cookie HTTP-Only
-        generateToken(res, usuario._id, usuario.rol);
+        // No generamos token en el registro por defecto si el flujo es ir a login después.
+        // Si quisieras loguear al usuario automáticamente después del registro, llamarías generateToken aquí.
+        // const token = generateToken(res, usuario._id, usuario.rol);
 
         // Enviar email de bienvenida
         try {
             const emailSubject = '¡Bienvenido/a a Mi Tienda Escolar!';
-            const emailMessage = `Hola ${usuario.nombre},\n\nGracias por registrarte en Mi Tienda Escolar. ¡Estamos emocionados de tenerte con nosotros!\n\nAhora puedes empezar a explorar nuestro catálogo y encontrar todo lo que necesitas.\n\nVisita nuestra tienda aquí: [URL de tu tienda frontend aquí] (Configura FRONTEND_URL en .env)\n\nSi tienes alguna pregunta, no dudes en contactarnos.\n\nSaludos,\nEl equipo de Mi Tienda Escolar`;
+            const emailMessage = `Hola ${usuario.nombre},\n\nGracias por registrarte en Mi Tienda Escolar. ¡Estamos emocionados de tenerte con nosotros!\n\nAhora puedes empezar a explorar nuestro catálogo y encontrar todo lo que necesitas.\n\nVisita nuestra tienda aquí: ${process.env.FRONTEND_URL} (Configura FRONTEND_URL en .env)\n\nSi tienes alguna pregunta, no dudes en contactarnos.\n\nSaludos,\nEl equipo de Mi Tienda Escolar`;
             // TODO: Usar plantilla HTML para el email de bienvenida para un mejor formato
 
             await sendEmail({
                 email: usuario.email,
                 subject: emailSubject,
                 message: emailMessage,
+                // html: '<b>Hola!</b> Puedes usar HTML', // Opcional: si tienes template HTML
             });
             console.log(`Email de bienvenida enviado a ${usuario.email}`);
         } catch (emailError) {
@@ -57,7 +77,7 @@ const registrarUsuario = asyncHandler(async (req, res) => {
             console.error(`Error al enviar email de bienvenida a ${usuario.email}:`, emailError);
         }
 
-        // Responder al cliente con los datos del usuario creado (sin contraseña)
+        // Responder al cliente con los datos del usuario creado (sin contraseña), SIN el token en registro
         res.status(201).json({ // 201 Created
             _id: usuario._id,
             nombre: usuario.nombre,
@@ -67,10 +87,11 @@ const registrarUsuario = asyncHandler(async (req, res) => {
             aprobadoMayorista: usuario.aprobadoMayorista,
             activo: usuario.activo,
             // No enviar la contraseña ni siquiera hasheada
+            // No enviamos token en el registro por defecto, ya que el usuario irá a login después.
         });
     } else {
         res.status(400); // Bad Request
-        throw new Error('Datos de usuario inválidos, no se pudo crear el usuario');
+        throw new Error('Datos de usuario inválidos, no se pudo crear el usuario.');
     }
 });
 
@@ -78,7 +99,7 @@ const registrarUsuario = asyncHandler(async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUsuario = asyncHandler(async (req, res) => {
-    // express-validator ya validó email y password no vacíos y formato email en ruta
+    // express-validator ya validó email y password no vacíos y formato email en ruta.
     const { email, password } = req.body;
 
     // Buscar usuario por email e incluir la contraseña para la comparación (.select('+password'))
@@ -92,10 +113,11 @@ const loginUsuario = asyncHandler(async (req, res) => {
         }
 
         // Generar token JWT y establecerlo como cookie HTTP-Only
-        generateToken(res, usuario._id, usuario.rol);
+        // También CAPTURAMOS el valor string del token para devolverlo en el body
+        const token = generateToken(res, usuario._id, usuario.rol); // <--- CAPTURAR EL VALOR DEVUELTO
 
-        // Responder con los datos del usuario logueado (sin password)
-        res.json({
+        // Responder con los datos del usuario logueado (sin password) Y el token en el body
+        res.json({ // 200 OK por defecto
             _id: usuario._id,
             nombre: usuario.nombre,
             apellido: usuario.apellido,
@@ -103,25 +125,35 @@ const loginUsuario = asyncHandler(async (req, res) => {
             rol: usuario.rol,
             aprobadoMayorista: usuario.aprobadoMayorista,
             activo: usuario.activo,
+            token: token, // <--- AÑADIMOS EL TOKEN AL JSON DE LA RESPUESTA para localStorage en frontend
             // Otros datos que el frontend necesite al loguearse (ej. direcciones principales, etc.)
         });
     } else {
         res.status(401); // Unauthorized
-        throw new Error('Email o contraseña incorrectos');
+        throw new Error('Email o contraseña incorrectos'); // Error si usuario no encontrado o password incorrecta
     }
 });
 
 // @desc    Cerrar sesión (Logout)
 // @route   POST /api/auth/logout
-// @access  Private (requiere estar autenticado)
+// @access  Private (requiere estar autenticado para borrar la cookie JWT)
 const logoutUsuario = asyncHandler(async (req, res) => {
     // Limpiar la cookie JWT haciendo que expire inmediatamente
+    // Esto es relevante si el frontend guardaba el token en cookie (el método original)
+    // o si por alguna razón el navegador la envió (con credentials: include)
     res.cookie('jwt', '', {
         httpOnly: true,
         expires: new Date(0), // Fecha en el pasado
-        secure: process.env.NODE_ENV !== 'development', // Solo en HTTPS en producción
+        secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
         sameSite: 'strict', // Ayuda a prevenir CSRF
+        // domain: '.tutiendaescolar.com.ar' // Si aplicaste un domain en generateToken
     });
+    // Nota: La cookie solo se borrará si la petición viene del mismo dominio/subdominio
+    // para el que la cookie fue establecida y si la configuración de samesite lo permite.
+
+    // Si el frontend usa localStorage, el frontend se encargará de borrar el token de ahí.
+    // El backend solo confirma que recibió la petición y borra la cookie (si aplica).
+
     res.status(200).json({ message: 'Sesión cerrada exitosamente' });
 });
 
@@ -142,22 +174,39 @@ const solicitarReseteoPassword = asyncHandler(async (req, res) => {
     if (!usuario) {
         console.log(`Intento de reseteo de password para email no encontrado: ${email}`);
         // Devolver un mensaje genérico de éxito AUNQUE el usuario no exista
-        res.status(200).json({ message: 'Si el usuario está registrado, recibirás un email con instrucciones para resetear tu contraseña.' });
+        res.status(200).json({ message: 'Si el email está registrado, recibirás un email con instrucciones para resetear tu contraseña.' });
         return; // Salir de la función
     }
 
     // El usuario existe. Generar el token de reseteo.
     // El método en el modelo User genera el token ORIGINAL y setea/hashea el token y la expiración en el documento.
+    // Necesitas tener este método en tu modelo User.js:
+    /*
+    userSchema.methods.getResetPasswordToken = function() {
+        // Generar token (string aleatorio legible)
+        const resetToken = crypto.randomBytes(20).toString('hex');
+
+        // Hashear el token y guardarlo en el schema (para comparar con el que llega en la URL)
+        this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+        // Establecer la fecha de expiración del token (ej. 10 minutos)
+        this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutos en ms
+
+        return resetToken; // Devolver el token SIN hashear para enviarlo en el email
+    };
+    */
     const resetTokenOriginal = usuario.getResetPasswordToken();
 
     // Guardar el usuario con el token hasheado y la fecha de expiración en la base de datos
     // Esto guarda los campos passwordResetToken y passwordResetExpires que seteó usuario.getResetPasswordToken()
-    await usuario.save({ validateBeforeSave: false }); // Opcional: omitir validación completa antes de guardar solo estos campos si el modelo es muy complejo
+    // validateBeforeSave: false es útil si el modelo tiene validaciones 'required'
+    // que podrían fallar al guardar solo estos campos opcionales.
+    await usuario.save({ validateBeforeSave: false });
 
-    // Crear la URL de reseteo
+    // Crear la URL de reseteo para el email
     // Esta URL debe apuntar a tu frontend, donde tendrás un formulario para que el usuario ingrese la nueva contraseña.
-    // El frontend leerá el token de los parámetros de la URL.
-    // Asegúrate de tener FRONTEND_URL en tu archivo .env
+    // El frontend leerá el token de los parámetros de la URL (ej. /resetpassword?token=...).
+    // Asegúrate de tener FRONTEND_URL en tu archivo .env.
     const resetUrl = `${process.env.FRONTEND_URL}/resetpassword?token=${resetTokenOriginal}`; // TODO: Usar una ruta de frontend específica como /resetpassword
 
 
@@ -175,7 +224,7 @@ const solicitarReseteoPassword = asyncHandler(async (req, res) => {
 
         console.log(`Email de reseteo de password enviado a ${usuario.email}`);
         // Responder con éxito UNA VEZ que el email se envió correctamente
-        res.status(200).json({ message: 'Si el usuario está registrado, recibirás un email con instrucciones para resetear tu contraseña.' });
+        res.status(200).json({ message: 'Si el email está registrado, recibirás un email con instrucciones para resetear tu contraseña.' });
 
     } catch (emailError) {
         // Si falla el envío de email, es importante limpiar el token y la expiración por seguridad,
