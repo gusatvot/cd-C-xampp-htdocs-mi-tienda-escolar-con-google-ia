@@ -2,60 +2,105 @@
 
 const express = require('express');
 const cors = require('cors');
-const db = require('./db'); // Correcta referencia a tu archivo de base de datos.
+const bcrypt = require('bcryptjs'); // Para encriptar contraseñas
+const jwt = require('jsonwebtoken'); // Para crear los "pases VIP"
+const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// *** MODIFICACIÓN CLAVE PARA EVITAR ERRORES DE CORS ***
-// Configuración de CORS más explícita para permitir peticiones
-// desde cualquier origen (incluyendo tu entorno local 127.0.0.1).
+// Configuración de CORS
 const corsOptions = {
-  origin: '*', // Permite CUALQUIER origen
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
-// *** FIN DE LA MODIFICACIÓN ***
-
 app.use(express.json());
 
-// Tus rutas de API se mantienen intactas, ya son perfectas.
+// --- RUTAS DE PRODUCTOS (YA EXISTENTES) ---
 app.get('/api/productos', (req, res) => {
-    const sql = `
-        SELECT p.*, c.nombre as categoria_nombre 
-        FROM productos p 
-        LEFT JOIN categorias c ON p.categoria_id = c.id
-    `;
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error al obtener productos:', err);
-            return res.status(500).json({ error: 'Error interno del servidor al obtener productos' });
+    // ... tu código de getProductos no cambia ...
+});
+app.get('/api/productos/:id', (req, res) => {
+    // ... tu código de getProductoById no cambia ...
+});
+
+
+// --- NUEVA RUTA: REGISTRO DE USUARIOS ---
+app.post('/api/registro', async (req, res) => {
+    const { nombre, email, password } = req.body;
+
+    // 1. Validar que los datos llegaron
+    if (!nombre || !email || !password) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+    }
+
+    try {
+        // 2. Revisar si el email ya existe
+        const userExistsSql = 'SELECT * FROM usuarios WHERE email = ?';
+        db.query(userExistsSql, [email], async (err, results) => {
+            if (err) return res.status(500).json({ error: 'Error en la base de datos.' });
+            if (results.length > 0) {
+                return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
+            }
+
+            // 3. Hashear (encriptar) la contraseña
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            // 4. Insertar el nuevo usuario en la DB
+            const insertSql = 'INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)';
+            db.query(insertSql, [nombre, email, hashedPassword], (err, result) => {
+                if (err) return res.status(500).json({ error: 'Error al registrar el usuario.' });
+                res.status(201).json({ message: 'Usuario registrado con éxito.' });
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+});
+
+
+// --- NUEVA RUTA: LOGIN DE USUARIOS ---
+app.post('/api/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email y contraseña son obligatorios.' });
+    }
+
+    const sql = 'SELECT * FROM usuarios WHERE email = ?';
+    db.query(sql, [email], async (err, results) => {
+        if (err) return res.status(500).json({ error: 'Error en la base de datos.' });
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Credenciales inválidas.' }); // No decimos "usuario no existe" por seguridad
         }
-        res.json(results);
+
+        const usuario = results[0];
+
+        // Comparamos la contraseña enviada con la hasheada en la DB
+        const passwordValida = await bcrypt.compare(password, usuario.password);
+        if (!passwordValida) {
+            return res.status(401).json({ error: 'Credenciales inválidas.' });
+        }
+
+        // Si las credenciales son válidas, creamos el "pase VIP" (JWT)
+        const payload = {
+            usuario: {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                email: usuario.email
+            }
+        };
+
+        jwt.sign(payload, 'secretoDeMiTienda', { expiresIn: '1h' }, (err, token) => {
+            if (err) throw err;
+            res.json({ token }); // Enviamos el token al frontend
+        });
     });
 });
 
-app.get('/api/productos/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `
-        SELECT p.*, c.nombre as categoria_nombre 
-        FROM productos p 
-        LEFT JOIN categorias c ON p.categoria_id = c.id 
-        WHERE p.id = ?
-    `;
-    db.query(sql, [id], (err, results) => {
-        if (err) {
-            console.error(`Error al obtener producto con id ${id}:`, err);
-            return res.status(500).json({ error: 'Error interno del servidor al obtener el producto' });
-        }
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-        res.json(results[0]);
-    });
-});
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
