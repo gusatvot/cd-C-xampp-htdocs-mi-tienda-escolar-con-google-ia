@@ -1,13 +1,15 @@
-// frontend/js/pages/login.js
 import { loginUsuario } from '../api/client.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('form-login'); // Asegúrate que tu form tenga este ID
-    const mensajeError = document.getElementById('mensaje-error');
+    // Es crucial que tu formulario de login tenga el id="form-login"
+    const form = document.getElementById('form-login'); 
+    // Y que tengas un div con id="mensaje-error" para mostrar los fallos
+    const mensajeError = document.getElementById('mensaje-error'); 
 
     if (form) {
         form.addEventListener('submit', async (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Evita que la página se recargue
+            mensajeError.style.display = 'none'; // Oculta errores anteriores
 
             const email = form.email.value;
             const password = form.password.value;
@@ -15,13 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const respuesta = await loginUsuario({ email, password });
                 
-                // Si el login es exitoso, guardamos el token en el navegador
                 if (respuesta.token) {
+                    // Guardamos el "pase VIP" (token) en el almacenamiento local del navegador
                     localStorage.setItem('token', respuesta.token);
                     alert('¡Inicio de sesión exitoso!');
-                    window.location.href = 'mi-cuenta.html'; // O a la página principal
+                    // Redirigimos al usuario a la página de su cuenta o al inicio
+                    window.location.href = 'mi-cuenta.html';
                 }
-
             } catch (error) {
                 mensajeError.textContent = error.message;
                 mensajeError.style.display = 'block';

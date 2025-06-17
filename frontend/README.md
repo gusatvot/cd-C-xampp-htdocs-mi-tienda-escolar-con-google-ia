@@ -71,3 +71,13 @@ banners/: Para las imágenes grandes que usarás en el slider de la página de i
 categorias/: Para las imágenes pequeñas o iconos que representen tus categorías de productos.
 productos/: Para las fotos de cada uno de tus artículos escolares.
 iconos/: Para iconos como el del carrito, usuario, redes sociales, flechas, etc.
+
+asi es para subir a github:
+# 1. Preparar todos los archivos modificados
+git add .
+
+# 2. Guardar los cambios con un mensaje descriptivo
+git commit -m "Feat: Implementar sistema de registro y login (backend y frontend)"
+
+# 3. Enviar los cambios guardados a GitHub
+git push
