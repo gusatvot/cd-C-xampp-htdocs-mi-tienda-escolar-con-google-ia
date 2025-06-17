@@ -104,4 +104,11 @@ app.post('/api/login', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
+    // ... tu código anterior ...
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    // *** AÑADE ESTA LÍNEA ***
+    console.log('--- Versión con rutas de registro y login desplegada ---');
+});
 });
