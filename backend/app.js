@@ -1,15 +1,16 @@
 // backend/app.js
 
-const express = require('express');
-const cors = require('cors');
-const bcrypt = require('bcryptjs'); // Para encriptar contraseñas
-const jwt = require('jsonwebtoken'); // Para crear los "pases VIP"
-const db = require('./db');
+// --- MODIFICACIÓN: Usamos 'import' en lugar de 'require' ---
+import express from 'express';
+import cors from 'cors';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import db from './db.js'; // Importante: añadir .js a las importaciones de archivos locales
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuración de CORS
+// Configuración de CORS se mantiene igual
 const corsOptions = {
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -19,84 +20,88 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// --- RUTAS DE PRODUCTOS (YA EXISTENTES) ---
+// --- Las rutas no cambian su lógica, solo su sintaxis si fuera necesario ---
+
+// Ruta para obtener todos los productos
 app.get('/api/productos', (req, res) => {
-    // ... tu código de getProductos no cambia ...
-});
-app.get('/api/productos/:id', (req, res) => {
-    // ... tu código de getProductoById no cambia ...
+    const sql = `
+        SELECT p.*, c.nombre as categoria_nombre 
+        FROM productos p 
+        LEFT JOIN categorias c ON p.categoria_id = c.id
+    `;
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error al obtener productos:', err);
+            return res.status(500).json({ error: 'Error interno del servidor al obtener productos' });
+        }
+        res.json({ productos: results }); // Asegurándonos que siempre devuelva el objeto
+    });
 });
 
+// Ruta para obtener un producto por su ID
+app.get('/api/productos/:_id', (req, res) => { // Cambiado a _id para coincidir
+    const { _id } = req.params;
+    const sql = `
+        SELECT p.*, c.nombre as categoria_nombre 
+        FROM productos p 
+        LEFT JOIN categorias c ON p.categoria_id = c.id 
+        WHERE p._id = ?
+    `;
+    db.query(sql, [_id], (err, results) => {
+        if (err) {
+            console.error(`Error al obtener producto con id ${_id}:`, err);
+            return res.status(500).json({ error: 'Error interno del servidor al obtener el producto' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.json(results[0]);
+    });
+});
 
-// --- NUEVA RUTA: REGISTRO DE USUARIOS ---
-app.post('/api/registro', async (req, res) => {
+// Ruta de Registro
+app.post('/api/registro', (req, res) => {
     const { nombre, email, password } = req.body;
 
-    // 1. Validar que los datos llegaron
     if (!nombre || !email || !password) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
     }
 
-    try {
-        // 2. Revisar si el email ya existe
-        const userExistsSql = 'SELECT * FROM usuarios WHERE email = ?';
-        db.query(userExistsSql, [email], async (err, results) => {
-            if (err) return res.status(500).json({ error: 'Error en la base de datos.' });
-            if (results.length > 0) {
-                return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
-            }
+    const checkUserSql = 'SELECT email FROM usuarios WHERE email = ?';
+    db.query(checkUserSql, [email], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Error en la base de datos al verificar usuario.' });
+        if (results.length > 0) return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
 
-            // 3. Hashear (encriptar) la contraseña
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) return res.status(500).json({ error: 'Error al hashear la contraseña.' });
 
-            // 4. Insertar el nuevo usuario en la DB
-            const insertSql = 'INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)';
-            db.query(insertSql, [nombre, email, hashedPassword], (err, result) => {
+            const insertUserSql = 'INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)';
+            db.query(insertUserSql, [nombre, email, hashedPassword], (err, result) => {
                 if (err) return res.status(500).json({ error: 'Error al registrar el usuario.' });
                 res.status(201).json({ message: 'Usuario registrado con éxito.' });
             });
         });
-    } catch (error) {
-        res.status(500).json({ error: 'Error interno del servidor.' });
-    }
+    });
 });
 
-
-// --- NUEVA RUTA: LOGIN DE USUARIOS ---
+// Ruta de Login
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email y contraseña son obligatorios.' });
-    }
+    if (!email || !password) return res.status(400).json({ error: 'Email y contraseña son obligatorios.' });
 
     const sql = 'SELECT * FROM usuarios WHERE email = ?';
-    db.query(sql, [email], async (err, results) => {
-        if (err) return res.status(500).json({ error: 'Error en la base de datos.' });
-        if (results.length === 0) {
-            return res.status(401).json({ error: 'Credenciales inválidas.' }); // No decimos "usuario no existe" por seguridad
-        }
+    db.query(sql, [email], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Error en la base de datos al buscar usuario.' });
+        if (results.length === 0) return res.status(401).json({ error: 'Credenciales inválidas.' });
 
         const usuario = results[0];
+        bcrypt.compare(password, usuario.password, (err, isMatch) => {
+            if (err) return res.status(500).json({ error: 'Error al comparar contraseñas.' });
+            if (!isMatch) return res.status(401).json({ error: 'Credenciales inválidas.' });
 
-        // Comparamos la contraseña enviada con la hasheada en la DB
-        const passwordValida = await bcrypt.compare(password, usuario.password);
-        if (!passwordValida) {
-            return res.status(401).json({ error: 'Credenciales inválidas.' });
-        }
-
-        // Si las credenciales son válidas, creamos el "pase VIP" (JWT)
-        const payload = {
-            usuario: {
-                id: usuario.id,
-                nombre: usuario.nombre,
-                email: usuario.email
-            }
-        };
-
-        jwt.sign(payload, 'secretoDeMiTienda', { expiresIn: '1h' }, (err, token) => {
-            if (err) throw err;
-            res.json({ token }); // Enviamos el token al frontend
+            const payload = { usuario: { id: usuario._id, nombre: usuario.nombre } };
+            const token = jwt.sign(payload, 'secretoDeMiTienda', { expiresIn: '1h' });
+            res.json({ token });
         });
     });
 });
@@ -104,11 +109,5 @@ app.post('/api/login', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
-    // ... tu código anterior ...
-
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-    // *** AÑADE ESTA LÍNEA ***
-    console.log('--- Versión con rutas de registro y login desplegada ---');
-});
+    console.log('--- Versión con sintaxis ES Module desplegada ---');
 });
