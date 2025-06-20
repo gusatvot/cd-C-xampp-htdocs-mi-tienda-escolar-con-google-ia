@@ -50,45 +50,39 @@ const corsOptions = {
         }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], // ASEGURARSE QUE OPTIONS ESTÉ AQUÍ
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-    optionsSuccessStatus: 204 // Responde con 204 a las preflight exitosas
+    preflightContinue: false, // Muy importante: cors maneja OPTIONS y no las pasa.
+    optionsSuccessStatus: 204 // Estándar para preflight requests exitosas.
 };
 
-// Aplicar el middleware CORS principal a todas las rutas
+// Aplicar el middleware CORS principal a TODAS las rutas.
+// ESTE MIDDLEWARE DEBERÍA MANEJAR LAS PETICIONES OPTIONS (PREFLIGHT).
 app.use(cors(corsOptions));
-
-// Manejador explícito para TODAS las peticiones OPTIONS.
-// Esto se asegura de que las preflight requests terminen aquí con un 204,
-// después de que el middleware `cors(corsOptions)` anterior ya haya establecido
-// las cabeceras Access-Control-Allow-*.
-app.options('*', (req, res) => {
-    // El middleware cors(corsOptions) ya debería haber respondido o configurado
-    // las cabeceras. Si no, al menos respondemos 204 para satisfacer al navegador.
-    console.log(`BACKEND: Manejador app.options('*') para ${req.originalUrl} desde ${req.headers.origin}`);
-    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*'); // Reflejar origen o ser permisivo
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.sendStatus(204); // Importante: terminar la petición OPTIONS aquí
-});
 // --- Fin Configuración CORS ---
 
 
 app.use(cookieParser());
+
+// Multer dentro de uploadRoutes procesará 'multipart/form-data'
 app.use('/api/upload', uploadRoutes); 
+
+// Middlewares de body-parser generales
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Morgan para logging HTTP
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 } else {
     app.use(morgan('combined'));
 }
 
+// Servir carpeta de subidas
 const uploadsFolder = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsFolder));
 
+// Rutas de la API
 app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoryRoutes);
 app.use('/api/productos', productRoutes);
@@ -101,6 +95,7 @@ app.get('/api', (req, res) => {
     res.json({ message: 'API E-commerce Funcionando Correctamente!' });
 });
 
+// Middlewares de manejo de errores (al final)
 app.use(notFound);
 app.use(errorHandler);
 
