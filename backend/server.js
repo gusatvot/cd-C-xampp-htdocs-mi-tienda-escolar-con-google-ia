@@ -19,102 +19,92 @@ import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-// import paymentRoutes from './routes/paymentRoutes.js'; // Descomentar cuando esté listo
 
-// --- Configuración para __dirname y __filename en ES Modules ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// --- CONFIGURACIÓN INICIAL ---
-dotenv.config(); // Cargar variables de entorno desde .env
-connectDB(); // Conectar a la base de datos MongoDB
+dotenv.config();
+connectDB();
+const app = express();
 
-const app = express(); // Inicializar la aplicación Express
+app.use(compression());
 
-// --- MIDDLEWARES GENERALES ---
-app.use(compression()); // Comprimir respuestas
-
-// --- Configuración de CORS más explícita y robusta ---
+// --- Configuración de CORS ---
 const allowedOrigins = [
     'http://localhost:5500', 
     'http://127.0.0.1:5500', 
-    'http://localhost:5173', // Común para Vite en desarrollo
-    'http://localhost:3000'  // Común para Create React App en desarrollo
+    'http://localhost:5173',
+    'http://localhost:3000'
 ];
-
-// Añadir la URL del frontend de producción si está definida en .env
 if (process.env.FRONTEND_URL) {
     allowedOrigins.push(process.env.FRONTEND_URL);
 }
 
-app.use(cors({
+const corsOptions = {
     origin: function (origin, callback) {
-        // Permitir peticiones sin 'origin' (como Postman, apps móviles, curl) o si el origen está en la lista
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
-            console.warn(`CORS: Origen bloqueado -> ${origin}`); // Loguear origen bloqueado para depuración
+            console.warn(`CORS: Origen bloqueado -> ${origin}`);
             callback(new Error(`El origen '${origin}' no está permitido por CORS.`));
         }
     },
-    credentials: true, // Para permitir cookies y cabeceras de autorización
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], // Métodos HTTP permitidos
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'], // Cabeceras permitidas en la petición
-    preflightContinue: false, // Importante: 'false' para que el middleware cors maneje las peticiones OPTIONS y no pasen a tus rutas
-    optionsSuccessStatus: 204 // Estándar para preflight requests exitosas (responde con 204 No Content)
-}));
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    optionsSuccessStatus: 204 // Responde con 204 a las preflight exitosas
+};
+
+// Aplicar el middleware CORS principal a todas las rutas
+app.use(cors(corsOptions));
+
+// Manejador explícito para TODAS las peticiones OPTIONS.
+// Esto se asegura de que las preflight requests terminen aquí con un 204,
+// después de que el middleware `cors(corsOptions)` anterior ya haya establecido
+// las cabeceras Access-Control-Allow-*.
+app.options('*', (req, res) => {
+    // El middleware cors(corsOptions) ya debería haber respondido o configurado
+    // las cabeceras. Si no, al menos respondemos 204 para satisfacer al navegador.
+    console.log(`BACKEND: Manejador app.options('*') para ${req.originalUrl} desde ${req.headers.origin}`);
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*'); // Reflejar origen o ser permisivo
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204); // Importante: terminar la petición OPTIONS aquí
+});
 // --- Fin Configuración CORS ---
 
 
-// Middleware para parsear cookies adjuntas a las peticiones. Permite acceder a req.cookies.
 app.use(cookieParser());
-
-// --- MONTAR LA RUTA DE UPLOAD TEMPRANO ---
-// El middleware de Multer dentro de uploadRoutes procesará 'multipart/form-data' ANTES de los body-parser generales.
 app.use('/api/upload', uploadRoutes); 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Middlewares de body-parser generales para JSON y URL-encoded Bodies
-// Estos deben ir ANTES de las rutas que los necesitan (excepto las de upload), pero DESPUÉS de CORS.
-app.use(express.json()); // Para parsear bodies JSON
-app.use(express.urlencoded({ extended: true })); // Para parsear bodies URL-encoded
-
-// Middleware para logging de peticiones HTTP
 if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev')); // Formato 'dev' para desarrollo (conciso y coloreado)
+    app.use(morgan('dev'));
 } else {
-    app.use(morgan('combined')); // Formato 'combined' para producción (estándar Apache)
+    app.use(morgan('combined'));
 }
 
-// --- SERVIR CARPETA DE SUBIDAS ESTÁTICAMENTE ---
-// Definir la ruta absoluta al directorio donde Multer guarda los archivos subidos (backend/uploads)
 const uploadsFolder = path.join(__dirname, 'uploads');
-app.use('/uploads', express.static(uploadsFolder)); // Servir archivos desde la URL base '/uploads'
+app.use('/uploads', express.static(uploadsFolder));
 
-
-// --- RUTAS DE LA API (resto) ---
-// Montar los routers de cada grupo de funcionalidades.
 app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoryRoutes);
 app.use('/api/productos', productRoutes);
 app.use('/api/carrito', cartRoutes);
 app.use('/api/ordenes', orderRoutes);
 app.use('/api/usuarios', userRoutes);
-// app.use('/api/pagos', paymentRoutes); // Descomentar cuando implementes la lógica de pagos
 app.use('/api/admin', adminRoutes);
 
-// Ruta de prueba básica para verificar que la API está funcionando
 app.get('/api', (req, res) => {
     res.json({ message: 'API E-commerce Funcionando Correctamente!' });
 });
 
-// --- MIDDLEWARES DE MANEJO DE ERRORES ---
-// Estos middlewares DEBEN ir al final de la cadena de middlewares y rutas.
-app.use(notFound); // Middleware para manejar rutas no encontradas (404 Not Found)
-app.use(errorHandler); // Middleware centralizado para manejar todos los demás errores
+app.use(notFound);
+app.use(errorHandler);
 
-// --- INICIAR EL SERVIDOR ---
-const PORT = process.env.PORT || 4000; // Obtener el puerto desde las variables de entorno o usar 4000 por defecto.
-
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(
         `Servidor corriendo en el puerto ${PORT} en modo ${process.env.NODE_ENV || 'development'}`
