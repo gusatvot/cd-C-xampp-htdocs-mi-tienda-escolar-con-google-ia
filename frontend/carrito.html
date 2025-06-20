@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <!-- Tu Hoja de Estilos Principal -->
     <link rel="stylesheet" href="css/estilos.css">
 </head>
@@ -42,6 +43,7 @@
                     <a href="login.html" id="mi-cuenta-link" class="icono-cuenta" aria-label="Mi Cuenta"> 
                         <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
                     </a>
+                    <button id="logout-button" class="btn btn-link" style="margin-left: 10px; display: none;">Cerrar Sesión</button>
                     <a href="carrito.html" class="icono-carrito active" aria-label="Carrito de Compras"> <!-- 'active' porque estamos en la página del carrito -->
                         <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
                         <span class="contador-carrito">2</span> <!-- Ejemplo con 2 items, se actualizará con JS -->
@@ -251,7 +253,7 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    
     <!-- Podrías tener un script específico para el carrito si la lógica es mucha: -->
     <!-- <script src="js/carrito.js"></script> -->
 </body>

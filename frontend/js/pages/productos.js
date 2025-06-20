@@ -1,24 +1,26 @@
 // frontend/js/pages/productos.js
 
-import { getProductos } from '../api/client.js';
+import { getProductos, agregarItemAlCarrito } from '../api/client.js'; // Importamos ambas de client.js
+import { isLoggedIn, actualizarUIAuth } from '../common/auth.js';      // Importamos de auth.js
+import { inicializarUI, actualizarContadorCarrito } from '../common/ui.js'; // Importamos de ui.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.getElementById('grid-productos');
 
+    // Primero, actualizamos la UI para mostrar "Mi Cuenta" o "Logout" correctamente
+    inicializarUI();
+    actualizarUIAuth();
+    actualizarContadorCarrito(); // También actualizamos el contador al cargar la página
+
     const renderProductos = async () => {
-        if (!gridContainer) {
-            console.error('Error: El contenedor #grid-productos no se encontró en esta página.');
-            return;
-        }
+        if (!gridContainer) return;
 
         try {
             gridContainer.innerHTML = '<p class="mensaje-carga">Cargando productos...</p>';
-            
             const respuesta = await getProductos();
-            
-            gridContainer.innerHTML = ''; 
+            gridContainer.innerHTML = '';
 
-            if (!respuesta || !respuesta.productos || respuesta.productos.length === 0) {
+            if (!respuesta?.productos?.length) {
                 gridContainer.innerHTML = '<p class="mensaje-info">No hay productos disponibles por el momento.</p>';
                 return;
             }
@@ -27,21 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productoCard = document.createElement('article');
                 productoCard.className = 'producto-card';
 
-                const urlImagenCompleta = producto.imagenes[0]?.url 
-                    ? `img/productos/${producto.imagenes[0].url}` 
-                    : 'img/productos/placeholder.jpg';
+                // Usamos la URL de tu backend para las imágenes
+                const imagenUrl = producto.imagenes?.[0] ? producto.imagenes[0] : 'img/productos/placeholder.jpg';
 
-                const precio = producto.precioBase;
-
-                // *** CORRECCIÓN APLICADA AQUÍ: Se usa producto._id ***
                 productoCard.innerHTML = `
                     <a href="producto-detalle.html?id=${producto._id}">
                         <div class="producto-card-imagen">
-                            <img src="${urlImagenCompleta}" alt="${producto.nombre}">
+                            <img src="${imagenUrl}" alt="${producto.nombre}" loading="lazy">
                         </div>
                         <div class="producto-card-info">
                             <h3>${producto.nombre}</h3>
-                            <p class="precio">${formatearPrecio(precio)}</p>
+                            <p class="precio">${formatearPrecio(producto.precioBase)}</p>
                         </div>
                     </a>
                     <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="${producto._id}">Añadir al Carrito</button>
@@ -54,14 +52,43 @@ document.addEventListener('DOMContentLoaded', () => {
             gridContainer.innerHTML = `<p class="mensaje-error">No se pudieron cargar los productos. Por favor, intente de nuevo más tarde.</p>`;
         }
     };
-    
+
     const formatearPrecio = (valor) => {
-        if (isNaN(valor)) return '$ 0.00';
-        return new Intl.NumberFormat('es-AR', {
-            style: 'currency',
-            currency: 'ARS'
-        }).format(valor);
+        return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor);
     };
+
+    // --- LÓGICA PARA "AÑADIR AL CARRITO" USANDO DELEGACIÓN DE EVENTOS ---
+    if (gridContainer) {
+        gridContainer.addEventListener('click', async (event) => {
+            // Verificamos si el clic fue en un botón de "Añadir al Carrito"
+            if (event.target.classList.contains('btn-anadir-carrito')) {
+                // 1. Verificar si el usuario está logueado
+                if (!isLoggedIn()) {
+                    alert('Por favor, inicia sesión para agregar productos al carrito.');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // 2. Obtener el ID del producto desde el atributo data-id
+                const productoId = event.target.dataset.id;
+                
+                try {
+                    // 3. Llamar a la API para agregar el item
+                    const carritoActualizado = await agregarItemAlCarrito(productoId, 1);
+                    
+                    // 4. Actualizar el ícono del carrito con la nueva cantidad de items
+                    actualizarContadorCarrito(); // <-- Llamamos al actualizador
+                    
+                    // 5. Mostrar confirmación al usuario
+                    alert(`"${carritoActualizado.items.find(item => item.producto === productoId)?.nombre || 'El producto'}" fue agregado al carrito.`);
+                    
+                } catch (error) {
+                    // Si la API devuelve un error (ej: sin stock), lo mostramos
+                    alert(`Error al agregar el producto: ${error.message}`);
+                }
+            }
+        });
+    }
 
     renderProductos();
 });

@@ -294,3 +294,9 @@ Fase 9: Testing y Deploy: Escribir tests unitarios/de integración, preparar el 
 git add .
 git commit -m "Backend: JWT in login response and check Authorization header"
 git push origin main
+
+{
+    "email": "gusatvot@gmail.com",
+    "password": "Esmigol.27"
+}
+}

@@ -1,24 +1,16 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TuTiendaEscolar - Inicio</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Tu Hoja de Estilos Principal -->
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <link rel="stylesheet" href="css/estilos.css">
-
-     <!-- Opcional: SweetAlert2 para mensajes más bonitos -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 </head>
 <body>
-
     <header>
         <div class="top-bar">
             <div class="container">
@@ -42,14 +34,11 @@
                     <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
                 </form>
                 <div class="header-iconos">
-                    <!-- ENLACE MI CUENTA (Visibilidad controlada por JS) -->
                     <a href="login.html" id="mi-cuenta-link" class="icono-cuenta" aria-label="Mi Cuenta"> 
                         <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
                     </a>
-                    <!-- BOTÓN DE LOGOUT (Visibilidad controlada por JS) -->
-                    <!-- Añadimos el ID 'logout-button' -->
+                    <button id="logout-button" class="btn btn-link" style="margin-left: 10px; display: none;">Cerrar Sesión</button>
                     <button id="logout-button" class="btn btn-link" style="margin-left: 10px; text-decoration: none; color: inherit; display: none;">Cerrar Sesión</button>
-                    
                     <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
                         <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
                         <span class="contador-carrito">0</span>
@@ -87,7 +76,6 @@
     </header>
 
     <main>
-        <!-- Contenido principal de la página de inicio -->
         <section class="hero-slider">
             <div class="slide active">
                 <img src="img/banners/banner-principal-1.jpg" alt="Promoción Vuelta al Cole">
@@ -98,92 +86,40 @@
                 </div>
             </div>
         </section>
-
         <section class="categorias-destacadas section-padding">
             <div class="container">
                 <h2 class="section-title">Categorías Destacadas</h2>
                 <div class="grid-categorias">
-                    <a href="productos.html?categoria=cuadernos" class="categoria-card">
-                        <img src="img/categorias/cat-cuadernos.jpg" alt="Cuadernos">
-                        <h3>Cuadernos</h3>
-                    </a>
-                    <a href="productos.html?categoria=lapices" class="categoria-card">
-                        <img src="img/categorias/cat-lapices.jpg" alt="Lápices y Colores">
-                        <h3>Lápices y Colores</h3>
-                    </a>
-                    <a href="productos.html?categoria=mochilas" class="categoria-card">
-                        <img src="img/categorias/cat-mochilas.jpg" alt="Mochilas">
-                        <h3>Mochilas</h3>
-                    </a>
-                    <a href="productos.html?categoria=escritura" class="categoria-card">
-                        <img src="img/categorias/cat-escritura.jpg" alt="Artículos de Escritura">
-                        <h3>Escritura</h3>
-                    </a>
+                    <a href="productos.html?categoria=cuadernos" class="categoria-card"><img src="img/categorias/cat-cuadernos.jpg" alt="Cuadernos"><h3>Cuadernos</h3></a>
+                    <a href="productos.html?categoria=lapices" class="categoria-card"><img src="img/categorias/cat-lapices.jpg" alt="Lápices y Colores"><h3>Lápices y Colores</h3></a>
+                    <a href="productos.html?categoria=mochilas" class="categoria-card"><img src="img/categorias/cat-mochilas.jpg" alt="Mochilas"><h3>Mochilas</h3></a>
+                    <a href="productos.html?categoria=escritura" class="categoria-card"><img src="img/categorias/cat-escritura.jpg" alt="Artículos de Escritura"><h3>Escritura</h3></a>
                 </div>
             </div>
         </section>
-
         <section class="productos-destacados section-padding">
             <div class="container">
                 <h2 class="section-title">Productos Destacados</h2>
-                <!-- Aquí deberías cargar productos dinámicamente desde el backend -->
-                <div class="grid-productos">
-                    <!-- Ejemplo de producto hardcodeado -->
-                    <article class="producto-card">
-                        <a href="producto-detalle.html?id=1">
-                            <div class="producto-card-imagen">
-                                <img src="img/productos/producto-destacado-1.jpg" alt="Cuaderno Tapa Dura">
-                                <span class="etiqueta-oferta">15% OFF</span>
-                            </div>
-                            <div class="producto-card-info">
-                                <h3>Cuaderno Tapa Dura Rayado x48 Hojas Rivadavia Clásico</h3>
-                                <p class="precio">$550.00 <span class="precio-anterior">$647.00</span></p>
-                            </div>
-                        </a>
-                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="1">Añadir al Carrito</button>
-                    </article>
-                     <!-- Más productos hardcodeados -->
+                <div id="grid-productos-destacados" class="grid-productos">
+                    <!-- Productos destacados se cargarán aquí con JS -->
                 </div>
             </div>
         </section>
-
         <section class="novedades section-padding bg-light">
             <div class="container">
                 <h2 class="section-title">Novedades</h2>
-                <!-- Aquí deberías cargar novedades dinámicamente desde el backend -->
-                 <div class="grid-productos">
-                    <!-- Ejemplo de novedad hardcodeada -->
-                    <article class="producto-card">
-                        <a href="producto-detalle.html?id=3">
-                            <div class="producto-card-imagen">
-                                <img src="img/productos/producto-novedad-1.jpg" alt="Mochila Urbana">
-                                <span class="etiqueta-nuevo">Nuevo</span>
-                            </div>
-                            <div class="producto-card-info">
-                                <h3>Mochila Escolar Urbana Reforzada con Puerto USB</h3>
-                                <p class="precio">$4500.00</p>
-                            </div>
-                        </a>
-                        <button class="btn btn-secondary btn-block btn-anadir-carrito" data-id="3">Añadir al Carrito</button>
-                    </article>
-                    <!-- Más novedades hardcodeadas -->
+                <div id="grid-novedades" class="grid-productos">
+                    <!-- Novedades se cargarán aquí con JS -->
                 </div>
             </div>
         </section>
-
         <section class="info-adicional section-padding">
             <div class="container">
                 <div class="grid-info">
-                    <div class="info-item">
-                        <img src="img/iconos/truck.svg" alt="Envíos" class="icono-info">
-                        <h4>Envíos a todo el país</h4>
-                        <p>Recibe tu pedido donde estés de forma rápida y segura.</p>
-                    </div>
-                    <!-- más .info-item -->
+                    <div class="info-item"><img src="img/iconos/truck.svg" alt="Envíos" class="icono-info"><h4>Envíos a todo el país</h4><p>Recibe tu pedido donde estés de forma rápida y segura.</p></div>
                 </div>
             </div>
         </section>
-
         <section class="llamada-mayoristas section-padding bg-dark text-light">
             <div class="container text-center">
                 <h2>¿Sos Comerciante, Escuela o Revendedor?</h2>
@@ -191,7 +127,6 @@
                 <a href="mayoristas.html" class="btn btn-primary btn-lg">Registrate como Mayorista</a>
             </div>
         </section>
-
     </main>
 
     <footer>
@@ -232,16 +167,12 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados. Desarrollo por [Tu Nombre/Empresa]</p>
+                <p>© 2023 TuTiendaEscolar. Todos los derechos reservados.</p>
                 <p>Defensa de las y los consumidores. Para reclamos <a href="URL_DEFENSA_CONSUMIDOR" target="_blank" rel="noopener noreferrer">ingrese aquí</a>.</p>
             </div>
         </div>
     </footer>
-
-    <!-- Scripts JS -->
-    <!-- TODO: SweetAlert2 -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-    <!-- Cargar primero auth.js si contiene lógica que debe ejecutarse al cargar cualquier página -->
-    <script src="js/common/ui.js"></script>
+    <script type="module" src="js/pages/login.js"></script>
+    <!-- Opcional: podrías crear un js/pages/home.js para cargar dinámicamente los productos destacados -->
 </body>
 </html>

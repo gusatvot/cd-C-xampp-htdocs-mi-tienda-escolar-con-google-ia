@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <!-- Tu Hoja de Estilos Principal -->
     <link rel="stylesheet" href="css/estilos.css">
 </head>
@@ -42,6 +42,7 @@
                     <a href="login.html" id="mi-cuenta-link" class="icono-cuenta" aria-label="Mi Cuenta"> 
                         <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
                     </a>
+                    <button id="logout-button" class="btn btn-link" style="margin-left: 10px; display: none;">Cerrar Sesión</button>
                     <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
                         <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
                         <span class="contador-carrito">0</span> <!-- Actualizar con JS -->
@@ -92,7 +93,7 @@
                 <aside class="sidebar-mi-cuenta">
                     <div class="saludo-usuario-cuenta">
                         <img src="img/iconos/user-circle-fill.svg" alt="Avatar del Usuario" class="avatar-cuenta">
-                        <p>Hola, <strong>NombreUsuario</strong></p> <!-- Se llenaría con JS/Backend -->
+                        <p>Hola, <strong id="saludo-usuario-nombre">Cargando...</strong></p> 
                     </div>
                     <nav class="menu-mi-cuenta">
                         <ul>
@@ -408,6 +409,6 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script type="module" src="js/pages/login.js"></script>
 </body>
 </html>

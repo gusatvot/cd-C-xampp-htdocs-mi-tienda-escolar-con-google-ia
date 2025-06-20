@@ -1,121 +1,127 @@
 // backend/server.js
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
-import morgan from 'morgan'; // Para logging de peticiones HTTP en desarrollo
-import cookieParser from 'cookie-parser'; // Para parsear cookies
-import connectDB from './config/db.js'; // Conexión a la base de datos
-import { notFound, errorHandler } from './middlewares/errorHandler.js'; // Middlewares de manejo de errores
+import cors from 'cors'; // Asegúrate de que esté importado
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import connectDB from './config/db.js';
+import { notFound, errorHandler } from './middlewares/errorHandler.js';
 import compression from 'compression';
-
-
-// Importar módulos para servir archivos estáticos y rutas
 import path from 'path';
-import { fileURLToPath } from 'url'; // Necesario para obtener __dirname en ES Modules
+import { fileURLToPath } from 'url';
 
 // --- Importación de Rutas ---
-import authRoutes from './routes/authRoutes.js'; // Rutas de autenticación (registro, login, logout)
-import categoryRoutes from './routes/categoryRoutes.js'; // Rutas para categorías
-import productRoutes from './routes/productRoutes.js'; // Rutas para productos
-import cartRoutes from './routes/cartRoutes.js'; // Rutas para el carrito de compras
-import orderRoutes from './routes/orderRoutes.js'; // Rutas para órdenes/pedidos y stats de órdenes
-import userRoutes from './routes/userRoutes.js'; // Rutas para gestión de perfiles de usuario y gestión por admin
-import uploadRoutes from './routes/uploadRoutes.js'; // <--- Importar rutas de subida
+import authRoutes from './routes/authRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-
-// TODO: import paymentRoutes from './routes/paymentRoutes.js'; // Rutas para integración de pagos (pospuesto)
-
+// import paymentRoutes from './routes/paymentRoutes.js';
 
 // --- Configuración para __dirname y __filename en ES Modules ---
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// --- Fin Configuración __dirname ---
-
 
 // --- CONFIGURACIÓN INICIAL ---
-dotenv.config(); // Cargar variables de entorno desde .env
-connectDB(); // Conectar a la base de datos MongoDB
+dotenv.config();
+connectDB();
 
-const app = express(); // Inicializar la aplicación Express
+const app = express();
 
 // --- MIDDLEWARES GENERALES ---
-// Estos middlewares se aplican a TODAS las peticiones que lleguen al servidor Express
-
 app.use(compression());
 
-// Configuración de CORS para permitir peticiones desde el frontend
+// --- Configuración de CORS más explícita y robusta ---
+const allowedOrigins = [
+    'http://localhost:5500', 
+    'http://127.0.0.1:5500', 
+    'http://localhost:5173', 
+    'http://localhost:3000'
+];
+
+// Añadir la URL del frontend de producción si está definida en .env
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Permite el origen de tu frontend (ajusta el puerto si es necesario)
-    credentials: true, // Necesario para que el frontend envíe y reciba cookies (importante para la autenticación JWT)
+    origin: function (origin, callback) {
+        // Permitir peticiones sin 'origin' (como Postman, apps móviles, curl) o si el origen está en la lista
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            console.warn(`CORS: Origen bloqueado -> ${origin}`); // Loguear origen bloqueado
+            callback(new Error(`El origen '${origin}' no está permitido por CORS.`));
+        }
+    },
+    credentials: true, // Para permitir cookies y cabeceras de autorización
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], // Métodos permitidos
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'], // Cabeceras permitidas en la petición
+    exposedHeaders: ['Content-Length', 'X-Request-Id'], // Cabeceras que el frontend puede leer en la respuesta (si es necesario)
+    preflightContinue: false, // Importante: 'false' para que cors maneje OPTIONS y no pasen a tus rutas
+    optionsSuccessStatus: 204 // Estándar para preflight requests exitosas (204 No Content)
 }));
 
-// Middleware para parsear cookies adjuntas a las peticiones. Permite acceder a req.cookies.
-app.use(cookieParser());
+// Manejar explícitamente peticiones OPTIONS globalmente ANTES de otras rutas.
+// Esto es a veces necesario como un "seguro" si el middleware cors general no las captura todas.
+// Debe ir DESPUÉS del app.use(cors(...)) principal.
+app.options('*', (req, res) => {
+    // El middleware cors ya debería haber configurado las cabeceras necesarias.
+    // Simplemente respondemos con 204 (No Content) para las OPTIONS.
+    console.log(`BACKEND: Petición OPTIONS recibida para: ${req.originalUrl} desde ${req.headers.origin}`);
+    res.sendStatus(204); 
+});
+// --- Fin Configuración CORS ---
+
+
+app.use(cookieParser()); // Para parsear cookies
 
 // --- MONTAR LA RUTA DE UPLOAD TEMPRANO ---
-// Montar las rutas de subida aquí. El middleware de Multer dentro de uploadRoutes
-// procesará 'multipart/form-data' ANTES de que los middlewares de body-parser generales actúen.
-app.use('/api/upload', uploadRoutes); // <--- RUTA DE UPLOAD MONTADA AQUÍ
+// Multer dentro de uploadRoutes procesará 'multipart/form-data'
+app.use('/api/upload', uploadRoutes); 
 
 // Middlewares de body-parser generales para JSON y URL-encoded Bodies
-// Estos no deberían afectar 'multipart/form-data' procesado por Multer,
-// pero se colocan DESPUÉS de la ruta de upload específica por si acaso hay interferencia.
+// Deben ir ANTES de las rutas que los necesitan, pero DESPUÉS de CORS.
 app.use(express.json()); // Para bodies JSON
 app.use(express.urlencoded({ extended: true })); // Para bodies URL-encoded
 
-// Middleware para logging de peticiones HTTP en modo desarrollo
+// Middleware para logging de peticiones HTTP
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 } else {
-    // TODO: Configurar Morgan para producción
-    app.use(morgan('combined')); // <--- Opción 1: Loguear a consola con formato 'combined'
-    //app.use(morgan('combined', { stream: accessLogStream })); // <--- Opción 2: Loguear a archivo con stream
+    app.use(morgan('combined'));
 }
 
 // --- SERVIR CARPETA DE SUBIDAS ESTÁTICAMENTE ---
-// Definir la ruta absoluta al directorio donde Multer guarda los archivos subidos (backend/uploads)
-const uploadsFolder = path.join(__dirname, 'uploads'); // Construye la ruta absoluta a la carpeta 'uploads'
-
-// Configurar Express para servir archivos estáticos desde la URL base '/uploads'
-// DEBE ir ANTES de las rutas API que podrían referenciar estas URLs.
-app.use('/uploads', express.static(uploadsFolder)); // <--- Configura el middleware para servir estáticos
+const uploadsFolder = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsFolder));
 
 
 // --- RUTAS DE LA API (resto) ---
-// Montar los routers de cada grupo de funcionalidades.
-// Estas rutas generales vienen DESPUÉS de la ruta de upload temprana.
-app.use('/api/auth', authRoutes); // Rutas de autenticación bajo /api/auth
-app.use('/api/categorias', categoryRoutes); // Rutas de categorías bajo /api/categorias
-app.use('/api/productos', productRoutes); // Rutas de productos bajo /api/productos
-app.use('/api/carrito', cartRoutes); // Rutas del carrito bajo /api/carrito
-app.use('/api/ordenes', orderRoutes); // Rutas de órdenes y stats de órdenes bajo /api/ordenes
-app.use('/api/usuarios', userRoutes); // Rutas de perfil y gestión de usuarios bajo /api/usuarios
-app.use('/api/upload', uploadRoutes);
-// TODO: app.use('/api/pagos', paymentRoutes); // Montar rutas de pagos bajo /api/pagos (cuando se retome)
+app.use('/api/auth', authRoutes);
+app.use('/api/categorias', categoryRoutes);
+app.use('/api/productos', productRoutes);
+app.use('/api/carrito', cartRoutes);
+app.use('/api/ordenes', orderRoutes);
+app.use('/api/usuarios', userRoutes);
+// app.use('/api/pagos', paymentRoutes); // Descomentar cuando implementes pagos
+app.use('/api/admin', adminRoutes);
 
-// Montar las rutas específicas de administración
-app.use('/api/admin', adminRoutes); // <--- Montar rutas de administración bajo /api/admin
-
-// Ruta de prueba básica para verificar que la API está funcionando
+// Ruta de prueba básica
 app.get('/api', (req, res) => {
     res.json({ message: 'API E-commerce Funcionando Correctamente!' });
 });
 
-// TODO: Podrías tener una ruta /api/admin/stats separada si quieres agrupar todas las estadísticas de admin aquí
-// import adminStatsRoutes from './routes/adminStatsRoutes.js';
-// app.use('/api/admin/stats', protegerRuta, autorizarRoles('admin'), adminStatsRoutes);
-
-
 // --- MIDDLEWARES DE MANEJO DE ERRORES ---
-// Estos middlewares DEBEN ir al final de la cadena de middlewares y rutas.
-app.use(notFound); // Middleware para manejar rutas no encontradas (404 Not Found)
-app.use(errorHandler); // Middleware centralizado para manejar todos los demás errores
-
+// Deben ir al final
+app.use(notFound);
+app.use(errorHandler);
 
 // --- INICIAR EL SERVIDOR ---
-const PORT = process.env.PORT || 4000; // Obtener el puerto desde las variables de entorno o usar 4000 por defecto.
-
-// Iniciar el servidor Express y escuchar en el puerto especificado.
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(
         `Servidor corriendo en el puerto ${PORT} en modo ${process.env.NODE_ENV || 'development'}`
