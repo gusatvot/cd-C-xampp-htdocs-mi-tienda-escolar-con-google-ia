@@ -299,4 +299,3 @@ git push origin main
     "email": "gusatvot@gmail.com",
     "password": "Esmigol.27"
 }
-}

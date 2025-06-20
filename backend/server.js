@@ -68,12 +68,12 @@ app.use(cors({
 // Manejar explícitamente peticiones OPTIONS globalmente ANTES de otras rutas.
 // Esto es a veces necesario como un "seguro" si el middleware cors general no las captura todas.
 // Debe ir DESPUÉS del app.use(cors(...)) principal.
-app.options('*', (req, res) => {
+//app.options('*', (req, res) => {
     // El middleware cors ya debería haber configurado las cabeceras necesarias.
     // Simplemente respondemos con 204 (No Content) para las OPTIONS.
     console.log(`BACKEND: Petición OPTIONS recibida para: ${req.originalUrl} desde ${req.headers.origin}`);
     res.sendStatus(204); 
-});
+//});
 // --- Fin Configuración CORS ---
 
 
