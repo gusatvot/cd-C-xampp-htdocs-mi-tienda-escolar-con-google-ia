@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TuTiendaEscolar - Inicio</title>
+    <title>TuTiendaEscolar - Admin Productos</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/estilos.css">
     <script src="js/libs/jwt-decode.min.js"></script> 
 </head>
 <body>
+
     <header>
         <div class="top-bar">
             <div class="container">
@@ -75,58 +78,101 @@
         </nav>
     </header>
 
-    <main>
-        <section class="hero-slider">
-            <div class="slide active">
-                <img src="img/banners/banner-principal-1.jpg" alt="Promoción Vuelta al Cole">
-                <div class="slide-caption">
-                    <h2>¡Gran Venta Vuelta al Cole!</h2>
-                    <p>Descuentos increíbles en todos los útiles escolares.</p>
-                    <a href="productos.html?ofertas=true" class="btn btn-primary">Ver Ofertas</a>
+    <main class="pagina-admin-productos section-padding">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="breadcrumbs" style="margin-bottom: 1.5rem;">
+                <ol>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="mi-cuenta.html">Mi Cuenta</a></li> 
+                    <li aria-current="page">Administrar Productos</li>
+                </ol>
+            </nav>
+
+            <h1>Administración de Productos</h1>
+
+            <!-- Div para mostrar mensajes globales (éxito/error) -->
+            <div id="mensaje-admin-producto" class="auth-error" style="display:none; margin-bottom: 1.5rem; padding: 1rem;"></div>
+
+            <section class="form-producto-admin-section" style="background-color: #f8f9fa; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <h2 style="margin-bottom: 1.5rem; border-bottom: 1px solid #dee2e6; padding-bottom: 0.5rem;">Crear / Editar Producto</h2>
+                <form id="form-admin-producto" class="form-stacked">
+                    <!-- Campo oculto para ID del producto (para modo edición) -->
+                    <input type="hidden" name="productoId" id="admin-prod-id">
+
+                    <div class="form-grupo">
+                        <label for="admin-prod-nombre">Nombre del Producto *</label>
+                        <input type="text" id="admin-prod-nombre" name="nombre" required placeholder="Ej: Cuaderno Universitario Rayado x80 Hojas">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="admin-prod-descripcion">Descripción *</label>
+                        <textarea id="admin-prod-descripcion" name="descripcion" rows="5" required placeholder="Detalles completos del producto..."></textarea>
+                    </div>
+                    <div class="form-grid-dos-columnas">
+                        <div class="form-grupo">
+                            <label for="admin-prod-sku">SKU (Código único) *</label>
+                            <input type="text" id="admin-prod-sku" name="sku" required placeholder="Ej: CUAD-ABC-R80H">
+                        </div>
+                        <div class="form-grupo">
+                            <label for="admin-prod-marca">Marca</label>
+                            <input type="text" id="admin-prod-marca" name="marca" placeholder="Ej: ABC, Faber-Castell">
+                        </div>
+                    </div>
+                    <div class="form-grid-dos-columnas">
+                        <div class="form-grupo">
+                            <label for="admin-prod-categoria">Categoría *</label>
+                            <select id="admin-prod-categoria" name="categoria" required>
+                                <option value="" disabled selected>Seleccione una categoría...</option>
+                                <!-- Las opciones se cargarán dinámicamente con JS -->
+                            </select>
+                        </div>
+                        <div class="form-grupo">
+                            <label for="admin-prod-precioBase">Precio Base (ARS) *</label>
+                            <input type="number" id="admin-prod-precioBase" name="precioBase" step="0.01" min="0" required placeholder="Ej: 250.99">
+                        </div>
+                    </div>
+                    <div class="form-grid-dos-columnas">
+                        <div class="form-grupo">
+                            <label for="admin-prod-stock">Stock Disponible *</label>
+                            <input type="number" id="admin-prod-stock" name="stock" min="0" required placeholder="Ej: 100">
+                        </div>
+                        <div class="form-grupo">
+                            <label for="admin-prod-unidadVenta">Unidad de Venta</label>
+                            <input type="text" id="admin-prod-unidadVenta" name="unidadVenta" placeholder="Ej: unidad, caja, pack x3">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="admin-prod-imagenes-input">Imágenes del Producto (Máx. 10, 5MB c/u)</label>
+                        <input type="file" id="admin-prod-imagenes-input" name="productImagesInput" multiple accept="image/jpeg, image/png, image/gif, image/webp" style="margin-bottom: 0.5rem; display:block;">
+                        <div id="previsualizacion-imagenes-admin" class="previsualizacion-imagenes-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; border: 1px solid #eee; padding: 10px; min-height: 50px;">
+                            <!-- Las previsualizaciones aparecerán aquí -->
+                        </div>
+                        <!-- Campo oculto para guardar las URLs de las imágenes ya subidas (en formato JSON string) -->
+                        <input type="hidden" id="admin-prod-imagenes-urls" name="imagenesUrlsString">
+                    </div>
+
+                    <div class="form-grupo form-checkbox" style="margin-top: 1.5rem;">
+                        <input type="checkbox" id="admin-prod-destacado" name="destacado" value="true" style="width:auto; margin-right: 0.5rem;">
+                        <label for="admin-prod-destacado" style="font-weight:normal;">Marcar como Producto Destacado</label>
+                    </div>
+                    <div class="form-grupo form-checkbox">
+                        <input type="checkbox" id="admin-prod-activo" name="activo" value="true" checked style="width:auto; margin-right: 0.5rem;">
+                        <label for="admin-prod-activo" style="font-weight:normal;">Producto Activo (visible en la tienda)</label>
+                    </div>
+
+                    <button type="submit" id="btn-guardar-producto" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Guardar Producto</button>
+                    <button type="button" id="btn-cancelar-edicion" class="btn btn-outline btn-block" style="margin-top: 0.5rem; display:none;">Cancelar Edición</button>
+                </form>
+            </section>
+
+            <section class="lista-productos-admin-section section-padding-small" style="margin-top: 2rem;">
+                <h2 style="margin-bottom: 1.5rem; border-bottom: 1px solid #dee2e6; padding-bottom: 0.5rem;">Lista de Productos Existentes</h2>
+                <div id="tabla-productos-admin-container">
+                    <p>Cargando productos...</p>
+                    <!-- La tabla de productos se cargará aquí con JS -->
                 </div>
-            </div>
-        </section>
-        <section class="categorias-destacadas section-padding">
-            <div class="container">
-                <h2 class="section-title">Categorías Destacadas</h2>
-                <div class="grid-categorias">
-                    <a href="productos.html?categoria=cuadernos" class="categoria-card"><img src="img/categorias/cat-cuadernos.jpg" alt="Cuadernos"><h3>Cuadernos</h3></a>
-                    <a href="productos.html?categoria=lapices" class="categoria-card"><img src="img/categorias/cat-lapices.jpg" alt="Lápices y Colores"><h3>Lápices y Colores</h3></a>
-                    <a href="productos.html?categoria=mochilas" class="categoria-card"><img src="img/categorias/cat-mochilas.jpg" alt="Mochilas"><h3>Mochilas</h3></a>
-                    <a href="productos.html?categoria=escritura" class="categoria-card"><img src="img/categorias/cat-escritura.jpg" alt="Artículos de Escritura"><h3>Escritura</h3></a>
-                </div>
-            </div>
-        </section>
-        <section class="productos-destacados section-padding">
-            <div class="container">
-                <h2 class="section-title">Productos Destacados</h2>
-                <div id="grid-productos-destacados" class="grid-productos">
-                    <!-- Productos destacados se cargarán aquí con JS -->
-                </div>
-            </div>
-        </section>
-        <section class="novedades section-padding bg-light">
-            <div class="container">
-                <h2 class="section-title">Novedades</h2>
-                <div id="grid-novedades" class="grid-productos">
-                    <!-- Novedades se cargarán aquí con JS -->
-                </div>
-            </div>
-        </section>
-        <section class="info-adicional section-padding">
-            <div class="container">
-                <div class="grid-info">
-                    <div class="info-item"><img src="img/iconos/truck.svg" alt="Envíos" class="icono-info"><h4>Envíos a todo el país</h4><p>Recibe tu pedido donde estés de forma rápida y segura.</p></div>
-                </div>
-            </div>
-        </section>
-        <section class="llamada-mayoristas section-padding bg-dark text-light">
-            <div class="container text-center">
-                <h2>¿Sos Comerciante, Escuela o Revendedor?</h2>
-                <p>Accedé a precios mayoristas exclusivos, descuentos por volumen y atención personalizada para tu negocio o institución.</p>
-                <a href="mayoristas.html" class="btn btn-primary btn-lg">Registrate como Mayorista</a>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer>
@@ -172,7 +218,7 @@
             </div>
         </div>
     </footer>
-    <script type="module" src="js/pages/index-page.js"></script>
-    <!-- Opcional: podrías crear un js/pages/home.js para cargar dinámicamente los productos destacados -->
+
+    <script type="module" src="js/pages/admin-productos.js"></script>
 </body>
 </html>

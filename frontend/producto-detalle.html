@@ -10,15 +10,73 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/libs/jwt-decode.min.js"></script> 
 </head>
 <body>
 
-    <!-- Header no cambia -->
-    <header>
-        <!-- ... Tu código de header ... -->
-    </header>
+        <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-contacto">
+                    <span><img src="img/iconos/phone.svg" alt="Teléfono" class="icono-contacto"> Llámanos: (011) 1234-5678</span>
+                    <span><img src="img/iconos/whatsapp.svg" alt="WhatsApp" class="icono-contacto"> WhatsApp: +54 9 11 1234 5678</span>
+                </div>
+                <div class="top-bar-enlaces">
+                    <a href="mayoristas.html">Acceso Mayoristas</a>
+                    <a href="preguntas-frecuentes.html">Ayuda</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html"><img src="img/logo/tu-logo.png" alt="TuTiendaEscolar Logo"></a>
+                </div>
+                <form class="search-bar" action="productos.html" method="get">
+                    <input type="text" name="q" placeholder="Buscar productos, marcas y más...">
+                    <button type="submit" aria-label="Buscar"><img src="img/iconos/search.svg" alt="Buscar"></button>
+                </form>
+                <div class="header-iconos">
+                    <a href="login.html" id="mi-cuenta-link" class="icono-cuenta" aria-label="Mi Cuenta"> 
+                        <img src="img/iconos/user.svg" alt="Mi Cuenta"><span>Mi Cuenta</span>
+                    </a>
+                    <button id="logout-button" class="btn btn-link" style="margin-left: 10px; display: none;">Cerrar Sesión</button>
+                    <a href="carrito.html" class="icono-carrito" aria-label="Carrito de Compras">
+                        <img src="img/iconos/cart.svg" alt="Carrito"><span>Carrito</span>
+                        <span class="contador-carrito">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-bar">
+    <div class="container nav-bar-container">
+        <button class="nav-toggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+            <span class="hamburger-icon"></span>
+        </button>
+        <div class="nav-menu-wrapper">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li class="dropdown">
+                    <a href="productos.html" class="active">Productos <img src="img/iconos/chevron-down.svg" alt="Desplegar" class="icono-dropdown"></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="productos.html?categoria=cuadernos">Cuadernos</a></li>
+                        <li><a href="productos.html?categoria=lapices">Lápices y Colores</a></li>
+                        <li><a href="productos.html?categoria=mochilas">Mochilas</a></li>
+                        <li><a href="productos.html?categoria=escritura">Escritura</a></li>
+                        <li><a href="productos.html?categoria=manualidades">Manualidades</a></li>
+                        <li><a href="productos.html">Ver Todos</a></li>
+                    </ul>
+                </li>
+                <li><a href="productos.html?ofertas=true">Ofertas</a></li>
+                <li><a href="mayoristas.html">Mayoristas</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    </header><!-- ... Tu código de header ... -->
 
     <main class="pagina-detalle-producto section-padding">
         <div class="container" id="main-container">
@@ -34,11 +92,10 @@
             <div class="detalle-producto-layout">
                 <section class="galeria-producto">
                     <div class="imagen-principal-wrapper">
-                         <!-- La imagen principal se cargará aquí -->
-                         <img src="img/productos/placeholder.jpg" alt="Cargando imagen del producto" id="producto-imagen-principal" class="imagen-principal">
+                        <img src="img/productos/placeholder.jpg" alt="Cargando..." id="producto-imagen-principal" class="imagen-principal">
                     </div>
-                    <!-- Las miniaturas también se podrían cargar dinámicamente si tuvieras más imágenes -->
                     <div class="miniaturas-galeria" id="producto-miniaturas">
+                    <!-- JavaScript llenará esto -->
                     </div>
                 </section>
 
@@ -53,11 +110,11 @@
                     
                     <p class="descripcion-corta" id="producto-descripcion-corta"></p>
 
-                    <form class="formulario-compra" id="formulario-compra">
+                    <form class="formulario-compra-detalle" id="formulario-compra-detalle">
                         <div class="selector-cantidad">
-                            <label for="cantidad">Cantidad:</label>
+                            <label for="cantidad-detalle">Cantidad:</label>
                             <button type="button" class="btn-cantidad menos" aria-label="Disminuir cantidad">-</button>
-                            <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="99" readonly class="input-cantidad">
+                            <input type="number" id="cantidad-detalle" name="cantidad" value="1" min="1" max="99" readonly class="input-cantidad">
                             <button type="button" class="btn-cantidad mas" aria-label="Aumentar cantidad">+</button>
                         </div>
                         <button type="submit" class="btn btn-primary btn-anadir-carrito-grande">Añadir al Carrito</button>
@@ -90,6 +147,6 @@
 
     <!-- *** MODIFICACIÓN CLAVE DE SCRIPTS *** -->
     
-    <script type="module" src="js/pages/login.js"></script>
+    <script type="module" src="js/pages/producto-detalle.js"></script>
 </body>
 </html>

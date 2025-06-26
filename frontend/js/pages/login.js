@@ -1,83 +1,102 @@
-// frontend/js/pages/login.js (VERSIÓN DE DEPURACIÓN EXTREMA)
+// frontend/js/pages/login.js
 
-// Solo importamos lo estrictamente necesario para el login
-import { loginUsuario } from '../api/client.js';
-import { guardarToken } from '../common/auth.js'; // Solo para guardar el token
+import { loginUsuario, getPerfilUsuario } from '../api/client.js'; // getPerfilUsuario añadido
+import { guardarToken, actualizarUIAuth, isLoggedIn, guardarPerfilEnSesion } from '../common/auth.js'; // isLoggedIn y guardarPerfilEnSesion añadidos/asegurados
+import { inicializarUI, actualizarContadorCarrito } from '../common/ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("LOGIN.JS (DEBUG): DOMContentLoaded iniciado.");
+    console.log("LOGIN.JS: DOMContentLoaded.");
+    inicializarUI();
+    actualizarUIAuth(); // Actualiza el header según el estado de login actual (antes de cualquier acción)
+    actualizarContadorCarrito();
+
+    if (isLoggedIn()) {
+        console.log("LOGIN.JS: Usuario ya logueado, redirigiendo a mi-cuenta.html");
+        window.location.replace('mi-cuenta.html');
+        return;
+    }
 
     const form = document.getElementById('form-login');
     const mensajeErrorDiv = document.getElementById('mensaje-error');
 
     if (!form) {
-        console.error("LOGIN.JS (DEBUG): CRÍTICO - No se encontró el formulario con id 'form-login'.");
+        console.error("LOGIN.JS: Formulario 'form-login' NO encontrado.");
         return;
     }
-    console.log("LOGIN.JS (DEBUG): Formulario 'form-login' encontrado:", form);
+    console.log("LOGIN.JS: Formulario 'form-login' encontrado.");
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        console.log("LOGIN.JS (DEBUG): Submit del formulario capturado.");
-
+        console.log("LOGIN.JS: Submit capturado.");
         if (mensajeErrorDiv) {
             mensajeErrorDiv.style.display = 'none';
             mensajeErrorDiv.textContent = '';
         }
 
-        // Logueamos toda la colección de elementos del formulario
-        console.log("LOGIN.JS (DEBUG): Elementos del formulario (form.elements):", form.elements);
-
-        // Intentamos acceder a los campos usando los nombres que VIMOS en el log anterior
-        const emailInput = form.elements['email-login'];
-        const passwordInput = form.elements['password-login'];
-
-        console.log("LOGIN.JS (DEBUG): emailInput encontrado:", emailInput);
-        console.log("LOGIN.JS (DEBUG): passwordInput encontrado:", passwordInput);
+        const emailInput = form.elements['email-login']; // Usando el ID que confirmamos que existe
+        const passwordInput = form.elements['password-login']; // Usando el ID que confirmamos que existe
 
         if (!emailInput || !passwordInput) {
-            console.error("LOGIN.JS (DEBUG): Error crítico: No se pudieron encontrar 'email-login' o 'password-login' en form.elements.");
+            console.error("LOGIN.JS: Campos de email o password no encontrados en el form.");
             if (mensajeErrorDiv) {
-                mensajeErrorDiv.textContent = "Error al obtener campos del formulario (ver consola).";
+                mensajeErrorDiv.textContent = "Error interno del formulario.";
                 mensajeErrorDiv.style.display = 'block';
             }
             return;
         }
-
         const email = emailInput.value;
         const password = passwordInput.value;
-
-        console.log("LOGIN.JS (DEBUG): Email leído:", email, "Password leída:", password ? '******' : 'VACÍA');
-
-        if (!email || !password) {
-            console.warn("LOGIN.JS (DEBUG): Email o Password están vacíos.");
-            if (mensajeErrorDiv) {
-                mensajeErrorDiv.textContent = "Por favor, complete el email y la contraseña.";
-                mensajeErrorDiv.style.display = 'block';
-            }
-            return;
-        }
+        console.log("LOGIN.JS: Email:", email, "Password:", password ? '******' : 'VACIA');
 
         try {
-            console.log("LOGIN.JS (DEBUG): Enviando credenciales al backend...");
-            const respuesta = await loginUsuario({ email, password });
-            console.log("LOGIN.JS (DEBUG): Respuesta del backend:", respuesta);
+            const respuestaLogin = await loginUsuario({ email, password });
+            console.log("LOGIN.JS: Respuesta del backend al login:", respuestaLogin);
 
-            if (respuesta && respuesta.token) {
-                guardarToken(respuesta.token);
-                alert('¡Login exitoso! (Redirección manual a mi-cuenta.html necesaria por ahora)');
-                // Por ahora, no redirigimos para poder ver los logs tranquilamente.
-                // window.location.replace('mi-cuenta.html');
+            if (respuestaLogin && typeof respuestaLogin.token === 'string' && respuestaLogin.token.length > 0) {
+                console.log("LOGIN.JS: Token válido recibido:", respuestaLogin.token);
+                guardarToken(respuestaLogin.token); // Guarda el token en localStorage
+                console.log("LOGIN.JS: Token guardado en localStorage.");
+
+                // --- Obtener y guardar perfil completo ---
+                try {
+                    console.log("LOGIN.JS: Obteniendo perfil del usuario tras login exitoso...");
+                    const perfilUsuario = await getPerfilUsuario(); // Llama a GET /api/usuarios/perfil
+                    if (perfilUsuario && perfilUsuario.nombre) { // Verificamos que el perfil y el nombre existan
+                        guardarPerfilEnSesion(perfilUsuario); // Guardamos el perfil en sessionStorage
+                        console.log("LOGIN.JS: Perfil del usuario guardado en sessionStorage:", perfilUsuario);
+                    } else {
+                        console.warn("LOGIN.JS: No se pudo obtener el perfil completo del usuario o el perfil no tiene nombre. Respuesta del perfil:", perfilUsuario);
+                        // Si falla obtener el perfil, el token sigue guardado, pero el nombre no se mostrará correctamente.
+                        // auth.js usará el fallback de decodificar el token si no encuentra el perfil en sessionStorage.
+                    }
+                } catch (errorPerfil) {
+                    console.error("LOGIN.JS: Error al obtener el perfil del usuario:", errorPerfil.message);
+                    // No hacemos fallar el login principal si solo falla la obtención del perfil.
+                }
+                // --- Fin Obtener y guardar perfil ---
+                
+                console.log("LOGIN.JS: Llamando a actualizarUIAuth() y actualizarContadorCarrito() ANTES de redirigir.");
+                actualizarUIAuth(); // Esto debería AHORA poder leer el perfil de sessionStorage y mostrar el nombre
+                actualizarContadorCarrito();
+                
+                console.log("LOGIN.JS: Login y preparación UI completos, redirigiendo a mi-cuenta.html...");
+                window.location.replace('mi-cuenta.html'); 
+                // No debería haber más código después de la redirección que se espere ejecutar.
             } else {
-                throw new Error(respuesta?.message || 'Respuesta de login inesperada.');
+                let errorMsg = "Credenciales incorrectas o error inesperado del servidor.";
+                if (respuestaLogin && respuestaLogin.message) {
+                    errorMsg = respuestaLogin.message;
+                }
+                console.error("LOGIN.JS: Login fallido - Token no recibido o inválido:", respuestaLogin);
+                throw new Error(errorMsg);
             }
         } catch (error) {
-            console.error("LOGIN.JS (DEBUG): Error durante el login:", error);
+            console.error("LOGIN.JS: Catch error durante proceso de login:", error);
             if (mensajeErrorDiv) {
-                mensajeErrorDiv.textContent = error.message || "Error desconocido.";
+                mensajeErrorDiv.textContent = error.message || "Ocurrió un error desconocido.";
                 mensajeErrorDiv.style.display = 'block';
             } else {
-                alert("Error: " + (error.message || "Error desconocido."));
+                alert("Error: " + (error.message || "Ocurrió un error desconocido."));
             }
         }
     });

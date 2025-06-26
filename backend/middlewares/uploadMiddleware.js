@@ -1,83 +1,91 @@
 // backend/middlewares/uploadMiddleware.js
 import multer from 'multer';
 import path from 'path';
-import { fileURLToPath } from 'url'; // Necesario para __dirname en ES Modules
 import fs from 'fs'; // Necesario para crear la carpeta
 
-// --- Configuración para __dirname en ES Modules ---
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-// --- Fin Configuración __dirname ---
+// Usar una ruta relativa al directorio de trabajo actual del proceso Node.js.
+// Si tu comando de inicio en Render es 'cd backend && node server.js', 
+// process.cwd() DENTRO de server.js (y los módulos que importa)
+// será la ruta a tu carpeta 'backend' en el servidor de Render.
+// Esto creará una carpeta 'uploads' DENTRO de 'backend'.
+const uploadsDir = path.join(process.cwd(), 'uploads'); 
 
-
-// Directorio donde se guardarán las imágenes subidas temporalmente o localmente
-// Este es el path DENTRO del servidor backend.
-const uploadsDir = path.join(__dirname, '../uploads'); // Ir al directorio superior y luego a 'uploads' (backend/uploads)
+console.log(`UPLOAD_MIDDLEWARE: Directorio de trabajo actual (process.cwd()): ${process.cwd()}`);
+console.log(`UPLOAD_MIDDLEWARE: Ruta de subidas configurada para: ${uploadsDir}`);
 
 // Crear la carpeta 'uploads' si no existe
+// Esto se ejecutará cuando el módulo se cargue por primera vez (cuando arranque el servidor)
 if (!fs.existsSync(uploadsDir)){
-    // { recursive: true } es importante para crear carpetas anidadas si es necesario (aunque aquí solo es 'uploads')
-    fs.mkdirSync(uploadsDir, { recursive: true });
+    try {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+        console.log(`UPLOAD_MIDDLEWARE: Carpeta de subidas creada exitosamente en ${uploadsDir}`);
+    } catch (err) {
+        console.error(`UPLOAD_MIDDLEWARE: ¡ERROR CRÍTICO! No se pudo crear la carpeta de subidas en ${uploadsDir}. Error:`, err);
+        // Si la carpeta no se puede crear, Multer fallará al intentar guardar archivos.
+        // Considera lanzar un error aquí o manejarlo de forma que el servidor no arranque si es crítico.
+    }
+} else {
+    console.log(`UPLOAD_MIDDLEWARE: La carpeta de subidas ${uploadsDir} ya existe.`);
 }
 
-
-// --- Configuración del Almacenamiento de Multer ---
-
-// Usamos diskStorage para guardar los archivos en el disco del servidor
+// Configuración del Almacenamiento de Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // 'cb' es el callback: cb(error, destino)
-        // El null significa que no hay error
-        cb(null, uploadsDir); // Guardar en la carpeta /backend/uploads
+        // Verificar si el directorio de destino existe justo antes de la subida
+        // (aunque ya lo hicimos al cargar el módulo, es una doble verificación)
+        if (!fs.existsSync(uploadsDir)) {
+            // Intentar crearla de nuevo si por alguna razón no existe
+            try {
+                fs.mkdirSync(uploadsDir, { recursive: true });
+                console.log(`UPLOAD_MIDDLEWARE (destination): Carpeta ${uploadsDir} creada justo a tiempo.`);
+            } catch (mkdirErr) {
+                console.error(`UPLOAD_MIDDLEWARE (destination): Error creando ${uploadsDir} en callback de destino.`, mkdirErr);
+                return cb(mkdirErr, null); // Pasar error a Multer
+            }
+        }
+        cb(null, uploadsDir); // Guardar en la carpeta /backend/uploads (relativa a donde se ejecuta el script)
     },
     filename: (req, file, cb) => {
-        // Cómo nombrar el archivo en el destino. Evitar colisiones.
-        // Usamos el nombre del campo + timestamp + extensión original.
-        const fileExtension = path.extname(file.originalname); // Obtener la extensión original (ej: .jpg, .png)
-        const fileName = `${file.fieldname}-${Date.now()}${fileExtension}`; // Construir el nombre
-        cb(null, fileName); // Usar el nombre construido
+        const fileExtension = path.extname(file.originalname);
+        // Sanitizar el nombre original para evitar problemas con caracteres especiales y limitar longitud
+        const originalNameSanitized = file.originalname
+            .replace(/\.[^/.]+$/, "") // Quitar extensión original para no duplicarla
+            .replace(/[^a-zA-Z0-9._-]/g, '_') // Reemplazar caracteres no seguros por guion bajo
+            .substring(0, 50); // Limitar longitud del nombre base
+        
+        const fileName = `${file.fieldname}-${Date.now()}-${originalNameSanitized}${fileExtension}`;
+        cb(null, fileName);
     },
 });
 
-// --- Configuración del Filtro de Archivos (Opcional pero Recomendado) ---
-
-// Para permitir solo ciertos tipos de archivos (ej: imágenes)
+// Configuración del Filtro de Archivos
 const fileFilter = (req, file, cb) => {
-    // Verificar si el archivo es una imagen basándose en el tipo MIME o extensión
-    const filetypes = /jpeg|jpg|png|gif|webp/; // Tipos de imagen permitidos
-    const mimetype = filetypes.test(file.mimetype); // Verificar el tipo MIME del archivo
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase()); // Verificar la extensión
+    const filetypes = /jpeg|jpg|png|gif|webp/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
     if (mimetype && extname) {
-        // Si el tipo MIME y la extensión coinciden con los permitidos
-        return cb(null, true); // Aceptar el archivo (null para error, true para aceptar)
+        return cb(null, true); // Aceptar el archivo
     } else {
-        // Si el archivo no es de un tipo de imagen permitido
-        cb(new Error('Tipo de archivo no válido. Solo se permiten imágenes (JPEG, JPG, PNG, GIF, WebP).'), false); // Rechazar el archivo (mensaje de error, false para rechazar)
+        // Rechazar el archivo con un error específico que Multer puede capturar
+        cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'Tipo de archivo no válido. Solo se permiten imágenes (JPEG, JPG, PNG, GIF, WebP).'), false);
     }
 };
 
-// --- Inicializar Multer ---
-
-// Creamos una instancia de Multer con nuestra configuración
+// Inicializar Multer
 const upload = multer({
-    storage: storage, // Usamos la configuración de almacenamiento en disco
-    fileFilter: fileFilter, // Usamos el filtro de archivos
-    limits: { fileSize: 1024 * 1024 * 5 } // Opcional: Limite de tamaño por archivo (5MB en este caso)
-    // Más opciones de limits: https://github.com/expressjs/multer#limits
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: { 
+        fileSize: 1024 * 1024 * 5, // Límite de 5MB por archivo
+        files: 10 // Límite de 10 archivos por petición (para upload.array)
+    } 
 });
 
-// --- Exportar Middleware(s) ---
+// Middleware para múltiples imágenes
+const uploadMultipleImages = upload.array('imagenes', 10); // 'imagenes' es el nombre del campo, 10 máx archivos
 
-// Exportamos middlewares específicos para usar en las rutas:
-// .single('nombreDelCampo'): Para subir un solo archivo con el nombre de campo especificado en el formulario (ej: 'imagen')
-// .array('nombreDelCampo', maxCount): Para subir múltiples archivos con el mismo nombre de campo (ej: 'imagenes', hasta 10)
-// .fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }]): Para subir múltiples archivos con diferentes nombres de campo
+// Middleware para una sola imagen (si lo necesitas en otro lado)
+const uploadSingleImage = upload.single('imagen');
 
-// Para subir múltiples imágenes para un producto, generalmente se usa .array
-const uploadMultipleImages = upload.array('imagenes', 10); // 'imagenes' es el nombre del campo 'name' en el formulario del frontend, 10 es el máximo de archivos permitidos
-
-// Para subir una sola imagen (si solo permites una imagen principal por producto)
-const uploadSingleImage = upload.single('imagen'); // 'imagen' es el nombre del campo en el formulario
-
-export { uploadMultipleImages, uploadSingleImage, uploadsDir }; // Exportamos también el directorio de subidas para configurar el servidor estático
+export { uploadMultipleImages, uploadSingleImage, uploadsDir }; // Exportar uploadsDir no es estrictamente necesario si server.js usa la misma lógica

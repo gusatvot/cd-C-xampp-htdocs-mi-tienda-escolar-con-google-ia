@@ -1097,6 +1097,65 @@ footer h4 { font-family: var(--fuente-titulos); font-size: 1.1rem; color: var(--
     font-weight: 600;
     color: var(--color-texto-principal);
 }
+/* ========================================================================== */
+/* == NUEVOS ESTILOS PARA GALERÍA DE IMÁGENES EN PRODUCTO-DETALLE.HTML == */
+/* ========================================================================== */
+
+.galeria-producto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaciado-md); 
+    position: sticky; /* Para que la galería se quede fija al hacer scroll en escritorio */
+    top: var(--espaciado-lg); /* Espacio desde la parte superior al quedar fija */
+}
+
+.imagen-principal-wrapper {
+    position: relative;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-borde-md);
+    overflow: hidden; 
+    background-color: var(--color-fondo-seccion-clara); /* Fondo blanco por si las imágenes tienen transparencia */
+}
+
+.imagen-principal-wrapper .imagen-principal { /* id="producto-imagen-principal" */
+    display: block; 
+    width: 100%;
+    height: auto; 
+    max-height: 450px; /* Ajusta según necesites */
+    object-fit: contain; 
+}
+
+.miniaturas-galeria { /* id="producto-miniaturas" */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
+    gap: var(--espaciado-sm);
+}
+
+.miniaturas-galeria .miniatura {
+    width: 100%; 
+    height: 70px; 
+    object-fit: cover; 
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio-borde-sm);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.miniaturas-galeria .miniatura:hover {
+    opacity: 1;
+    border-color: var(--color-secundario); 
+    transform: scale(1.05);
+}
+
+.miniaturas-galeria .miniatura.active {
+    opacity: 1;
+    border-color: var(--color-primario); 
+    box-shadow: 0 0 0 2px var(--color-primario); 
+    transform: scale(1.05);
+}
+
+/* == FIN NUEVOS ESTILOS PARA GALERÍA == */
 /* =============================================
    7. MEDIA QUERIES (Diseño Responsivo)
    ============================================= */
@@ -1129,6 +1188,20 @@ footer h4 { font-family: var(--fuente-titulos); font-size: 1.1rem; color: var(--
     .galeria-producto { position: static; margin-bottom: var(--espaciado-xl); }
     .layout-checkout { grid-template-columns: 1fr; } /* Checkout a una columna en tablet */
     .resumen-pedido-checkout { position: static; margin-top: var(--espaciado-xl); }
+    .detalle-producto-layout { grid-template-columns: 1fr; } 
+    .galeria-producto { 
+    position: static; /* En móvil/tablet, la galería ya no es sticky */
+    margin-bottom: var(--espaciado-xl); 
+    }
+    .imagen-principal-wrapper .imagen-principal {
+    max-height: 350px; 
+    }
+    .miniaturas-galeria {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+    }
+    .miniaturas-galeria .miniatura {
+    height: 60px;
+    }
 }
 /* DENTRO de tu Media Query, por ejemplo @media (max-width: 992px) o 768px */
 
@@ -1194,4 +1267,13 @@ footer h4 { font-family: var(--fuente-titulos); font-size: 1.1rem; color: var(--
     .form-checkout-principal .form-grid-dos-columnas { grid-template-columns: 1fr; } 
     .nombre-producto-carrito a { font-size: 0.9rem; } /* Más pequeño en carrito móvil */
     .tabla-carrito th:nth-child(3), .tabla-carrito td:nth-child(3) { display: none; } /* Ocultar precio unitario en móvil */
+    .imagen-principal-wrapper .imagen-principal {
+    max-height: 280px; 
 }
+ .miniaturas-galeria {
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); 
+}
+ .miniaturas-galeria .miniatura {
+    height: 50px;
+}
+}  

@@ -151,8 +151,6 @@ ADMIN
 
 cliente mayorista
 {
-    "nombre": "gusatvot",
-    "apellido": "tetto",
     "email": "gusatvot@gmail.com",
     "password": "Esmigol.27" // Este campo es importante para el registro
 }

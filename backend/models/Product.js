@@ -26,7 +26,6 @@ const productSchema = new mongoose.Schema(
         marca: {
             type: String,
             trim: true,
-        // backend/models/Category.js  <-- Esto parece ser un extracto INCORRECTO o de otro archivo
         },
         categoria: { // Cambiado de categoria_id a solo categoria para claridad
             type: mongoose.Schema.Types.ObjectId,

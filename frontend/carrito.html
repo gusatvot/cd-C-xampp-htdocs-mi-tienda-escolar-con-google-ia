@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <!-- Tu Hoja de Estilos Principal -->
     <link rel="stylesheet" href="css/estilos.css">
+    <script src="js/libs/jwt-decode.min.js"></script> 
 </head>
 <body>
 
@@ -113,69 +113,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Los items del carrito se generarían aquí con JavaScript -->
-                            <!-- Ejemplo de item 1 (para diseño) -->
-                            <tr class="item-carrito" data-iditem="prod1">
-                                <td class="imagen-producto-carrito">
-                                    <a href="producto-detalle.html?id=1">
-                                        <img src="img/productos/producto-destacado-1.jpg" alt="Cuaderno Tapa Dura">
-                                    </a>
-                                </td>
-                                <td class="nombre-producto-carrito">
-                                    <a href="producto-detalle.html?id=1">Cuaderno Tapa Dura Rayado x48</a>
-                                    <small>SKU: ART001</small>
-                                    <!-- <small>Color: Azul</small> -->
-                                </td>
-                                <td data-label="Precio Unitario:" class="precio-unitario-carrito text-right">$550.00</td>
-                                <td data-label="Cantidad:" class="cantidad-item-carrito">
-                                    <div class="selector-cantidad selector-cantidad-carrito"> <!-- Añadida clase para JS específico si es necesario -->
-                                        <button type="button" class="btn-cantidad menos" aria-label="Disminuir">-</button>
-                                        <input type="number" class="input-cantidad" value="1" min="1" max="10" readonly data-precio="550">
-                                        <button type="button" class="btn-cantidad mas" aria-label="Aumentar">+</button>
-                                    </div>
-                                </td>
-                                <td data-label="Subtotal:" class="subtotal-item-carrito text-right">$550.00</td>
-                                <td class="acciones-item-carrito">
-                                    <button class="btn-eliminar-item" aria-label="Eliminar producto" data-iditem="prod1">
-                                        <img src="img/iconos/trash.svg" alt="Eliminar">
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Ejemplo de item 2 (para diseño) -->
-                            <tr class="item-carrito" data-iditem="prod2">
-                                <td class="imagen-producto-carrito">
-                                    <a href="producto-detalle.html?id=2">
-                                        <img src="img/productos/producto-destacado-2.jpg" alt="Lápices de Colores">
-                                    </a>
-                                </td>
-                                <td class="nombre-producto-carrito">
-                                    <a href="producto-detalle.html?id=2">Caja Lápices Colores Faber Castell x12</a>
-                                    <small>SKU: ART002</small>
-                                </td>
-                                <td data-label="Precio Unitario:" class="precio-unitario-carrito text-right">$890.00</td>
-                                <td data-label="Cantidad:" class="cantidad-item-carrito">
-                                    <div class="selector-cantidad selector-cantidad-carrito">
-                                        <button type="button" class="btn-cantidad menos" aria-label="Disminuir">-</button>
-                                        <input type="number" class="input-cantidad" value="2" min="1" max="5" readonly data-precio="890">
-                                        <button type="button" class="btn-cantidad mas" aria-label="Aumentar">+</button>
-                                    </div>
-                                </td>
-                                <td data-label="Subtotal:" class="subtotal-item-carrito text-right">$1780.00</td>
-                                <td class="acciones-item-carrito">
-                                    <button class="btn-eliminar-item" aria-label="Eliminar producto" data-iditem="prod2">
-                                        <img src="img/iconos/trash.svg" alt="Eliminar">
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- Fin de items de ejemplo -->
+                            <!-- NADA AQUÍ DENTRO, O UNA FILA TEMPORAL -->
+                            <!-- Ejemplo de fila temporal (opcional): -->
+                            <!-- <tr><td colspan="6" class="text-center" id="mensaje-carga-carrito">Cargando tu carrito...</td></tr> -->
                         </tbody>
                     </table>
-                    <div class="acciones-generales-carrito">
-                        <a href="productos.html" class="btn btn-outline"> <img src="img/iconos/arrow-left.svg" alt=""> Seguir Comprando</a>
-                        <button class="btn btn-link btn-vaciar-carrito">Vaciar Carrito</button>
-                    </div>
+                        <div class="acciones-generales-carrito">
+                            <a href="productos.html" class="btn btn-outline"> <img src="img/iconos/arrow-left.svg" alt=""> Seguir Comprando</a>
+                            <button class="btn btn-link btn-vaciar-carrito">Vaciar Carrito</button>
+                        </div>
                 </section>
-
                 <aside class="resumen-compra-carrito">
                     <h2>Resumen del Pedido</h2>
                     <div class="linea-resumen">
@@ -252,8 +199,7 @@
             </div>
         </div>
     </footer>
-
-    
+    <script type="module" src="js/pages/carrito.js"></script>
     <!-- Podrías tener un script específico para el carrito si la lógica es mucha: -->
     <!-- <script src="js/carrito.js"></script> -->
 </body>

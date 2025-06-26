@@ -8,7 +8,7 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middlewares/errorHandler.js';
 import compression from 'compression';
 import path from 'path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url'; // No es necesario si usamos process.cwd() consistentemente
 
 // --- Importación de Rutas ---
 import authRoutes from './routes/authRoutes.js';
@@ -20,8 +20,9 @@ import userRoutes from './routes/userRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// No necesitamos __dirname si usamos process.cwd() para la carpeta uploads
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 dotenv.config();
 connectDB();
@@ -39,7 +40,6 @@ const allowedOrigins = [
 if (process.env.FRONTEND_URL) {
     allowedOrigins.push(process.env.FRONTEND_URL);
 }
-
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -50,21 +50,20 @@ const corsOptions = {
         }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], // ASEGURARSE QUE OPTIONS ESTÉ AQUÍ
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-    preflightContinue: false, // Muy importante: cors maneja OPTIONS y no las pasa.
-    optionsSuccessStatus: 204 // Estándar para preflight requests exitosas.
+    preflightContinue: false, 
+    optionsSuccessStatus: 204 
 };
-
-// Aplicar el middleware CORS principal a TODAS las rutas.
-// ESTE MIDDLEWARE DEBERÍA MANEJAR LAS PETICIONES OPTIONS (PREFLIGHT).
 app.use(cors(corsOptions));
 // --- Fin Configuración CORS ---
 
-
 app.use(cookieParser());
 
+// --- MONTAR LA RUTA DE UPLOAD TEMPRANO ---
 // Multer dentro de uploadRoutes procesará 'multipart/form-data'
+// ESTA RUTA DEBE ESTAR ANTES de express.json() y express.urlencoded()
+// para que Multer pueda parsear el cuerpo 'multipart' antes que ellos.
 app.use('/api/upload', uploadRoutes); 
 
 // Middlewares de body-parser generales
@@ -78,11 +77,15 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('combined'));
 }
 
-// Servir carpeta de subidas
-const uploadsFolder = path.join(__dirname, 'uploads');
+// --- SERVIR CARPETA DE SUBIDAS ESTÁTICAMENTE ---
+// Usamos la misma lógica que en uploadMiddleware.js para construir la ruta.
+// Asumimos que el comando de inicio ('node server.js') se ejecuta desde la carpeta 'backend'.
+const uploadsFolder = path.join(process.cwd(), 'uploads'); 
+console.log(`SERVER.JS: Intentando servir estáticos desde la carpeta de subidas: ${uploadsFolder}`);
 app.use('/uploads', express.static(uploadsFolder));
 
-// Rutas de la API
+
+// --- RUTAS DE LA API (resto) ---
 app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoryRoutes);
 app.use('/api/productos', productRoutes);

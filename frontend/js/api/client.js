@@ -4,99 +4,126 @@ import { obtenerToken } from '../common/auth.js';
 
 const BASE_URL = 'https://cd-c-xampp-htdocs-mi-tienda-escolar-con-scu2.onrender.com';
 
-/**
- * Función central para realizar TODAS las peticiones a la API.
- * Automáticamente añade el token de autorización si existe.
- * @param {string} endpoint El endpoint, ej: '/api/productos'
- * @param {string} method El método HTTP, ej: 'GET', 'POST', 'PUT', 'DELETE'
- * @param {object | null} body El cuerpo de la petición para POST/PUT
- * @returns {Promise<any>}
- */
-async function apiRequest(endpoint, method = 'GET', body = null) {
+async function apiRequest(endpoint, method = 'GET', body = null, isFormData = false) {
     const url = `${BASE_URL}${endpoint}`;
-    
-    const options = {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    // 1. Obtenemos el token guardado en localStorage
+    const headers = {};
     const token = obtenerToken();
 
-    // 2. Si hay un token, lo añadimos a las cabeceras
     if (token) {
-        options.headers['Authorization'] = `Bearer ${token}`;
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    if (!isFormData && body) {
+        headers['Content-Type'] = 'application/json';
     }
 
-    // 3. Si hay un cuerpo para la petición (POST/PUT), lo añadimos
+    const options = {
+        method: method.toUpperCase(),
+        headers,
+    };
+
     if (body) {
-        options.body = JSON.stringify(body);
+        options.body = isFormData ? body : JSON.stringify(body);
     }
 
     try {
+        // --- LOG AÑADIDO ---
+        console.log(`CLIENT.JS (apiRequest): Haciendo ${options.method} a ${url}`, options.body ? `con body.` : `sin body.`);
+        // --------------------
         const response = await fetch(url, options);
-        
-        // Intentamos parsear la respuesta como JSON. Si no hay cuerpo, devuelve un objeto vacío.
-        const data = await response.json().catch(() => ({}));
+        let data;
+        const contentType = response.headers.get("content-type");
 
-        if (!response.ok) {
-            // Usamos el mensaje de error del backend si está disponible
-            const errorMessage = data.message || `Error del servidor: ${response.status}`;
-            throw new Error(errorMessage);
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            data = await response.json();
+        } else if (response.status === 204) {
+            data = {}; 
+        } else {
+            data = { message: await response.text().catch(() => response.statusText) };
         }
 
-        return data; // Si todo fue bien, devolvemos los datos
+        if (!response.ok) {
+            const errorMessage = data.message || data.msg || `Error ${response.status}: ${response.statusText}`;
+            console.error(`CLIENT.JS (apiRequest): Error API para ${options.method} ${endpoint}. Status: ${response.status}. Mensaje: ${errorMessage}. Respuesta:`, data);
+            throw new Error(errorMessage);
+        }
+        console.log(`CLIENT.JS (apiRequest): Respuesta OK de API para ${options.method} ${endpoint}.`);
+        return data;
     } catch (error) {
-        console.error(`Error en la petición a ${endpoint}:`, error.message);
-        throw error; // Re-lanzamos el error para que sea capturado en la página
+        console.error(`CLIENT.JS (apiRequest): Error de red/fetch para ${options.method} ${endpoint}:`, error.message);
+        if (error instanceof Error) {
+            throw error;
+        } else {
+            throw new Error(String(error) || "Error desconocido en la petición a la API.");
+        }
     }
 }
 
-// --- Re-escribimos las funciones existentes para usar nuestra nueva función central ---
-
-// PRODUCTOS
-export function getProductos() {
-    return apiRequest('/api/productos'); // Método GET es el default
+// --- PRODUCTOS ---
+export function getProductos(queryParams = {}) {
+    const queryString = new URLSearchParams(queryParams).toString();
+    return apiRequest(`/api/productos${queryString ? `?${queryString}` : ''}`);
 }
 
 export function getProductoById(id) {
+    if (!id) {
+        console.error("CLIENT.JS (getProductoById): ID de producto no proporcionado.");
+        return Promise.reject(new Error("ID de producto no proporcionado para getProductoById."));
+    }
+    // --- LOG AÑADIDO ---
+    console.log("CLIENT.JS (getProductoById): Solicitando producto con ID:", id);
+    // --------------------
     return apiRequest(`/api/productos/${id}`);
 }
+export function crearProducto(datosProducto) {
+    return apiRequest('/api/productos', 'POST', datosProducto);
+}
+export function actualizarProducto(idProducto, datosProducto) {
+    if (!idProducto) return Promise.reject(new Error("ID de producto no proporcionado para actualizar."));
+    return apiRequest(`/api/productos/${idProducto}`, 'PUT', datosProducto);
+}
 
-// AUTENTICACIÓN
+// --- AUTENTICACIÓN ---
 export function registrarUsuario(datosUsuario) {
     return apiRequest('/api/auth/registrar', 'POST', datosUsuario);
 }
-
 export function loginUsuario(credenciales) {
     return apiRequest('/api/auth/login', 'POST', credenciales);
 }
-
 export function logoutUsuario() {
-    // El logout en el backend limpia la cookie (si se usa), pero no necesita body.
     return apiRequest('/api/auth/logout', 'POST');
 }
 
-// --- NUEVAS FUNCIONES PARA EL CARRITO ---
+// --- PERFIL DE USUARIO ---
+export function getPerfilUsuario() {
+    return apiRequest('/api/usuarios/perfil', 'GET'); 
+}
 
-/**
- * Obtiene el carrito completo del usuario logueado.
- * Llama a: GET /api/carrito
- */
+// --- CARRITO DE COMPRAS ---
 export function getCarrito() {
     return apiRequest('/api/carrito', 'GET');
 }
-
-/**
- * Agrega un producto al carrito.
- * Llama a: POST /api/carrito/items
- * @param {string} productoId - El _id del producto a agregar.
- * @param {number} cantidad - La cantidad a agregar.
- */
 export function agregarItemAlCarrito(productoId, cantidad = 1) {
+    if (!productoId) return Promise.reject(new Error("ID del producto no proporcionado para agregar al carrito."));
     return apiRequest('/api/carrito/items', 'POST', { productoId, cantidad });
 }
+export function actualizarCantidadItemCarrito(itemId, cantidad) {
+    if (!itemId || typeof cantidad !== 'number' || cantidad <= 0) return Promise.reject(new Error("Datos inválidos para actualizar ítem del carrito."));
+    return apiRequest(`/api/carrito/items/${itemId}`, 'PUT', { cantidad });
+}
+export function eliminarItemDelCarrito(itemId) {
+    if (!itemId) return Promise.reject(new Error("ID del ítem no proporcionado para eliminar del carrito."));
+    return apiRequest(`/api/carrito/items/${itemId}`, 'DELETE');
+}
+export function vaciarCarrito() {
+    return apiRequest('/api/carrito', 'DELETE');
+}
 
-// TODO: Aquí añadiremos las funciones para actualizar y eliminar items más adelante.
+// --- CATEGORÍAS ---
+export function getCategorias() {
+    return apiRequest('/api/categorias', 'GET');
+}
+
+// --- SUBIDA DE ARCHIVOS ---
+export function subirImagenes(formData) {
+    return apiRequest('/api/upload/images', 'POST', formData, true); 
+}
